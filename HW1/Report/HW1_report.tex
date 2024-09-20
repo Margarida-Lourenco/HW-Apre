@@ -31,7 +31,7 @@ Homework I --- Group 003\\
 \end{equation*}
 
 \begin{equation*}
-    H(y_{\text{out}}|y_1 > 0.3) = - \left( \frac{3}{9} \log_2 \left( \frac{3}{9} \right) + \frac{2}{9} \log_2 \left( \frac{2}{9} \right) + \frac{4}{9} \log_2 \left( \frac{4}{9} \right) \right) \approx  1,53049
+    H(y_{\text{out}}|y_1 > 0.3) = - \left( \frac{3}{6} \log_2 \left( \frac{3}{6} \right) + \frac{1}{6} \log_2 \left( \frac{1}{6} \right) + \frac{2}{6} \log_2 \left( \frac{2}{6} \right) \right) \approx  1.4591
 \end{equation*}
 
 \begin{equation}
@@ -50,29 +50,31 @@ Homework I --- Group 003\\
 \quad\fbox{x=2:}
 
 \begin{equation*}
-    P(y_2 = 0 | y_1 > 0.3) = \frac{3}{9} \quad
-    P(y_2 = 1 | y_1 > 0.3) = \frac{2}{9} \quad
-    P(y_2 = 2 | y_1 > 0.3) = \frac{4}{9} \quad
+    P(y_2 = 0 | y_1 > 0.3) = \frac{3}{6} \quad
+    P(y_2 = 1 | y_1 > 0.3) = \frac{3}{6} \quad
+    P(y_2 = 2 | y_1 > 0.3) = \frac{0}{6} \quad
 \end{equation*}
 
 \begin{equation*}
     \begin{aligned}
-        H(y_{\text{out}} | y_1 > 0.3, y_2 = 0) &= - \left( \frac{1}{5} \log_2 \left( \frac{1}{5} \right) + \frac{1}{5} \log_2 \left( \frac{1}{5} \right) + \frac{3}{5} \log_2 \left( \frac{3}{5} \right) \right) \approx 1.37095
+        H(y_{\text{out}} | y_1 > 0.3, y_2 = 0) &= - \left( \frac{1}{3} \log_2 \left( \frac{1}{3} \right) + \frac{0}{3} \log_2 \left( \frac{0}{3} \right) + \frac{2}{3} \log_2 \left( \frac{2}{3} \right) \right) \approx 0.9183
         \\
-        H(y_{\text{out}} | y_1 > 0.3, y_2 = 1) &= - \left( \frac{0}{2} \log_2 \left( \frac{0}{2} \right) + \frac{1}{2} \log_2 \left( \frac{1}{2} \right) + \frac{1}{2} \log_2 \left( \frac{1}{2} \right) \right) = 1
+        H(y_{\text{out}} | y_1 > 0.3, y_2 = 1) &= - \left( \frac{2}{3} \log_2 \left( \frac{2}{3} \right) + \frac{1}{3} \log_2 \left( \frac{1}{3} \right) + \frac{0}{3} \log_2 \left( \frac{0}{3} \right) \right) \approx 0.9183
         \\
-        H(y_{\text{out}} | y_1 > 0.3, y_2 = 2) &= - \left( \frac{2}{2} \log_2 \left( \frac{2}{2} \right) + \frac{0}{2} \log_2 \left( \frac{0}{2} \right) + \frac{0}{2} \log_2 \left( \frac{0}{2} \right) \right) = 0
+        H(y_{\text{out}} | y_1 > 0.3, y_2 = 2) &= - \left( \frac{0}{0} \log_2 \left( \frac{0}{0} \right) + \frac{0}{0} \log_2 \left( \frac{0}{0} \right) + \frac{0}{0} \log_2 \left( \frac{0}{0} \right) \right) = 0
         \\
     \end{aligned}
 \end{equation*}
 
+\textcolor{blue}{ou então colocar "Como não existem B's nas condições avaliadas, a entropia é zero"}
+
 \begin{equation*}
-    H(y_{\text{out}} | y_1 > 0.3, y_2) = \frac{5}{9} \times  1.37095 + \frac{2}{9} \times 1 + \frac{2}{9} \times 0 \approx 0.98386
+    H(y_{\text{out}} | y_1 > 0.3, y_2) = \frac{3}{6} \times 0.91830 + \frac{3}{6} \times 0.9183 + \frac{0}{6} \times 0 \approx 0.9183
     \\
 \end{equation*}
 
 \begin{equation*}
-    IG(y_{\text{out}} | y_1 > 0.3, y_2) = 1.53049 - 0.98386 = \textbf{0.54663}
+    IG(y_{\text{out}} | y_1 > 0.3, y_2) = 1.4591 - 0.9183 = 0.5408
 \end{equation*}
 
 \newpage
@@ -80,60 +82,62 @@ Homework I --- Group 003\\
 \fbox{x=3:}
 
 \begin{equation*}
-    P(y_3 = 0|y_1 > 0.3) = \frac{2}{9} \quad
-    P(y_3 = 1|y_1 > 0.3) = \frac{2}{9} \quad
-    P(y_3 = 2|y_1 > 0.3) = \frac{5}{9} \quad
+    P(y_3 = 0|y_1 > 0.3) = \frac{2}{6} \quad
+    P(y_3 = 1|y_1 > 0.3) = \frac{3}{6} \quad
+    P(y_3 = 2|y_1 > 0.3) = \frac{1}{6} \quad
 \end{equation*}
 
 \begin{equation*}
     \begin{aligned}
-        E(y_{\text{out}}|y_1 > 0.3, y_3 = 0) = - \left( \frac{0}{2} \log_2 \left( \frac{0}{2} \right) + \frac{1}{2} \log_2 \left( \frac{1}{2} \right) + \frac{1}{2} \log_2 \left( \frac{1}{2} \right) \right) &= 1 
+        E(y_{\text{out}}|y_1 > 0.3, y_3 = 0) = - \left( \frac{2}{2} \log_2 \left( \frac{2}{2} \right) + \frac{0}{2} \log_2 \left( \frac{0}{2} \right) + \frac{0}{2} \log_2 \left( \frac{0}{2} \right) \right) &= 0 
         \\
-        E(y_{\text{out}}|y_1 > 0.3, y_3 = 1) = - \left( \frac{1}{2} \log_2 \left( \frac{1}{2} \right) + \frac{1}{2} \log_2 \left( \frac{1}{2} \right) + \frac{0}{2} \log_2 \left( \frac{0}{2} \right) \right) &= 1
+        E(y_{\text{out}}|y_1 > 0.3, y_3 = 1) = - \left( \frac{1}{3} \log_2 \left( \frac{1}{3} \right) + \frac{0}{3} \log_2 \left( \frac{0}{3} \right) + \frac{2}{3} \log_2 \left( \frac{2}{3} \right) \right) &\approx 0.91830
         \\
-        E(y_{\text{out}}|y_1 > 0.3, y_3 = 2) = - \left( \frac{2}{5} \log_2 \left( \frac{2}{5} \right) + \frac{0}{5} \log_2 \left( \frac{0}{5} \right) + \frac{3}{5} \log_2 \left( \frac{3}{5} \right) \right) &\approx 0.97095
+        E(y_{\text{out}}|y_1 > 0.3, y_3 = 2) = - \left( \frac{0}{1} \log_2 \left( \frac{0}{1} \right) + \frac{1}{1} \log_2 \left( \frac{1}{1} \right) + \frac{0}{1} \log_2 \left( \frac{0}{1} \right) \right) &= 0
     \end{aligned}
 \end{equation*}
 
 \begin{equation*}
-    E(y_{\text{out}}|y_1 > 0.3, y_3) = \frac{2}{9} \times  1 + \frac{2}{9} \times 1 + \frac{5}{9} \times 0.97095 \approx 0.98386
+    E(y_{\text{out}}|y_1 > 0.3, y_3) = \frac{2}{6} \times  0 + \frac{3}{6} \times 0.9183 + \frac{1}{6} \times 0 \approx 0.4592
 \end{equation*}
 
 \begin{equation*}
-    IG(y_{\text{out}} | y_1 > 0.3, y_3) = 1.53049 - 0.98386 = \textbf{0.54663}
+    IG(y_{\text{out}} | y_1 > 0.3, y_3) = 1.4591 - 0.4592 = \textbf{0.9999}
 \end{equation*}
 
 \quad\fbox{x=4:}
 
 \begin{equation*}
-    P(y_4 = 0|y_1 > 0.3) = \frac{2}{9} \quad
-    P(y_4 = 1|y_1 > 0.3) = \frac{4}{9} \quad
-    P(y_4 = 2|y_1 > 0.3) = \frac{3}{9} \quad
+    P(y_4 = 0|y_1 > 0.3) = \frac{3}{6} \quad
+    P(y_4 = 1|y_1 > 0.3) = \frac{3}{6} \quad
+    P(y_4 = 2|y_1 > 0.3) = \frac{0}{6} \quad
 \end{equation*}
 
 \begin{equation*}
     \begin{aligned}
-        E(y_{\text{out}}|y_1 > 0.3, y_4 = 0) = - \left( \frac{1}{2} \log_2 \left( \frac{1}{2} \right) + \frac{0}{2} \log_2 \left( \frac{0}{2} \right) + \frac{1}{2} \log_2 \left( \frac{1}{2} \right) \right) &= 1 
+        E(y_{\text{out}}|y_1 > 0.3, y_4 = 0) = - \left( \frac{2}{3} \log_2 \left( \frac{2}{3} \right) + \frac{1}{3} \log_2 \left( \frac{1}{3} \right) + \frac{0}{3} \log_2 \left( \frac{0}{3} \right) \right) &\approx 0.9183 
         \\
-        E(y_{\text{out}}|y_1 > 0.3, y_4 = 1) = - \left( \frac{1}{4} \log_2 \left( \frac{1}{4} \right) + \frac{2}{4} \log_2 \left( \frac{2}{4} \right) + \frac{1}{4} \log_2 \left( \frac{1}{4} \right) \right) &= 1.5
+        E(y_{\text{out}}|y_1 > 0.3, y_4 = 1) = - \left( \frac{1}{3} \log_2 \left( \frac{1}{3} \right) + \frac{0}{3} \log_2 \left( \frac{0}{3} \right) + \frac{2}{3} \log_2 \left( \frac{2}{3} \right) \right) &\approx 0.9183
         \\
-        E(y_{\text{out}}|y_1 > 0.3, y_4 = 2) = - \left( \frac{1}{3} \log_2 \left( \frac{1}{3} \right) + \frac{0}{3} \log_2 \left( \frac{0}{3} \right) + \frac{2}{3} \log_2 \left( \frac{2}{3} \right) \right) &= 0.918295
     \end{aligned}
 \end{equation*}
 
+\textcolor{blue}{mesma situação de $x=2$}
+
 \begin{equation*}
-    E(y_{\text{out}}|y_1 > 0.3, y_4) = \frac{2}{9} \times 1 + \frac{4}{9} \times 1.5 + \frac{3}{9} \times 0.918296 \approx 1.19499
+    E(y_{\text{out}}|y_1 > 0.3, y_4) = \frac{3}{6} \times 0.9183 + \frac{3}{6} \times 0.9183 + \frac{0}{6} \times 0 \approx 0.9183
 \end{equation*}
 
 \begin{equation*}
-    IG(y_{\text{out}} | y_1 > 0.3, y_4) = 1.53049 - 1.19499 = 0.3355
+    IG(y_{\text{out}} | y_1 > 0.3, y_4) = 1.4591 - 0.9183 = 0.5408
 \end{equation*}
-    
-\paragraph{}
 
-    After calculating the information gains for each attribute, we can observe that both attributes $y_2$ and $y_3$ have the highest value of 0.54663.\\
-    Since we are faced with a tie, we choose $y_2$ as the next node, following the ascending alphabetical order (mentioned in point (ii) of the question summary).
-    Considering that are at least four observations with $y_1 > 0.3$, we split the new node. 
+\vspace{0.5cm}
+
+\hspace*{2em}After calculating the information gains for each attribute, we can observe that the attribute $y_3$ has the highest value of 0.9999. 
+Accordingly, we chose it as the next node. Since there are at least four observations with $y_1 > 0.3$, we split the new node. 
+
+\hspace*{2em}If we fix $y_1 > 0.3$ with $y_3 = 0$, $y_3 = 1$ and $y_3 = 2$, we will obtain 2, 3 and 1 observations, respectively. This gives us three new leaves for the branch in question. The node corresponding to $y_3 = 0$ will be class A, the one with $y_3 = 1$ will be class C, and the remaining, $y_3 = 2$ will be from class B, since these classes are the ones that appear most frequently for the respective conditions in the data set.
 
 %\begin{figure}[H]
 %          \centering
