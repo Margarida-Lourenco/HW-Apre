@@ -375,12 +375,12 @@ distributions.}
 
 \item To find the root split using the discriminating rules for the empirical distributions, we draw a decision tree with just one root split on $y_1$.
 Each branch contains the values of one bin, and it's corresponding leaf represents the class with highest value for that bin.
-Since we are faced with a tie in branch $0.8 <= y_1 <= 1$, it will be a 4-ary root split like in the following picture.
+Since we are faced with a tie in branch $0.8 <= y_1 <= 1$, we will use the alphabetic ascending rule to make this decision (like in the first exercise).
 \end{enumerate}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=12cm]{./Part I/4-ary root split.pdf}
+    \includegraphics[width=15cm]{./Part I/5 ary root split.pdf}
     \caption{Decision Tree using the discriminant rules from the empirical distributions}
 \end{figure}
 
@@ -483,14 +483,23 @@ that the maximum depth would be 3 in order to avoid overﬁtting risks.}
 \textbf{(ii) Explain what characterizes diabetes by identifying the conditional associations
 together with their posterior probabilities.}
 
-\vspace{0.5cm}
-
 The diabetic condition is characterized by:
 
 \begin{itemize}
     \item Glucose $<= 127.5$, Age $<= 28.5$ and BMI $>= 45.4$
     \item Glucose $<= 127.5$ and BMI $>= 29.95$
 \end{itemize}
+
+The posterior probabilities are calculated using the following expression:
+
+\[
+PP = \frac{\text{node\_samples\_current\_class}}{\text{total\_node\_samples}}
+\]
+
+As we can see, the most critical features in determining diabetes are Glucose and BMI.\\ 
+Glucose levels exceeding 127.5 significantly increase the likelihood of developing diabetes. For individuals with glucose levels surpassing 157.5, the posterior probability is $87\%$, indicating a high likelihood of suffering from a diabetic condition. 
+Even with a lower BMI, high glucose levels still pose a considerable risk for diabetes. Specifically, a BMI above a certain threshold is strongly associated with an increased chance of being diabetic.
+
 
 \end{enumerate}
 
