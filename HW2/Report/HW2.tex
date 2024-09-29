@@ -13,7 +13,9 @@
 \usepackage{subcaption} % For subfigures
 \usepackage{adjustbox}  % For centering the bottom image
 \usepackage{listings}
-\usepackage{xcolor} % para personalizar as cores (opcional)
+\usepackage{xcolor} % For setting colors
+\usepackage{booktabs} % For better tables
+\usepackage{threeparttable} % For table notes
 
 \usepackage{listings}
 \usepackage{xcolor}
@@ -56,8 +58,118 @@ Homework I --- Group 003\\
 
 \large{\textbf{Part I}: Pen and paper}\normalsize
 
+\vspace{20pt}
+\hspace{-20pt}We collected four positive (P) observations, 
+\[
+x_1 = (A,0), \quad x_2 = (B,1), \quad x_3 = (A,1), \quad x_4 = (A,0)
+\]
+and four negative (N) observations,
+\[
+x_5 = (B,0), \quad x_6 = (B,0), \quad x_7 = (A,1), \quad x_8 = (B,1)
+\]
+
+
+\hspace{-20pt}Consider the problem of classifying observations as positive or negative.
+
+\vspace{10pt}
 \begin{enumerate}[leftmargin=\labelsep]
-    \item Question 1: \textbf{Decision Trees}
+    \item \textbf{Compute the F1-measure of a $k$NN with $k =  5$ and Hamming distance using a
+    leave-one-out evaluation schema. Show all calculus.}
+
+    \vspace{10pt}
+    We start by calculating Hamming distance between observations. The Hamming distance is the number of positions at which the corresponding symbols are different.\\
+    Since we are workin with $k = 5$, we will consider the 5 nearest neighbors of each observation (written in blue).
+    \vspace{10pt}
+    
+    \begin{table}[H]
+        \begin{center}
+            \begin{tabular}{c|cccccccc}
+            & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & $x_7$ & $x_8$\\ 
+            \hline
+                $x_1$ & \-- & 2 & \textbf{\textcolor{codeblue}{1}} & \textbf{\textcolor{codeblue}{0}} & \textbf{\textcolor{codeblue}{1}} & \textbf{\textcolor{codeblue}{1}} & \textbf{\textcolor{codeblue}{1}} & 2 \\ 
+                $x_2$ & 2 & \-- & \textbf{\textcolor{codeblue}{1}} & 2 & \textbf{\textcolor{codeblue}{1}} & \textbf{\textcolor{codeblue}{1}} & \textbf{\textcolor{codeblue}{1}} & \textbf{\textcolor{codeblue}{0}} \\ 
+                $x_3$ & \textbf{\textcolor{codeblue}{1}} & \textbf{\textcolor{codeblue}{1}} & \-- & \textbf{\textcolor{codeblue}{1}} & 2 & 2 & \textbf{\textcolor{codeblue}{0}} & \textbf{\textcolor{codeblue}{1}} \\ 
+                $x_4$ & \textbf{\textcolor{codeblue}{0}} & 2 & \textbf{\textcolor{codeblue}{1}} & \-- & \textbf{\textcolor{codeblue}{1}} & \textbf{\textcolor{codeblue}{1}} & \textbf{\textcolor{codeblue}{1}} & 2 \\ 
+                $x_5$ & \textbf{\textcolor{codeblue}{1}} & \textbf{\textcolor{codeblue}{1}} & 2 & \textbf{\textcolor{codeblue}{1}} & \-- & \textbf{\textcolor{codeblue}{0}} & 2 & \textbf{\textcolor{codeblue}{1}} \\ 
+                $x_6$ & \textbf{\textcolor{codeblue}{1}} & \textbf{\textcolor{codeblue}{1}} & 2 & \textbf{\textcolor{codeblue}{1}} & \textbf{\textcolor{codeblue}{0}} & \-- & 2 & \textbf{\textcolor{codeblue}{1}} \\ 
+                $x_7$ & \textbf{\textcolor{codeblue}{1}} & \textbf{\textcolor{codeblue}{1}} & \textbf{\textcolor{codeblue}{0}} & \textbf{\textcolor{codeblue}{1}} & 2 & 2 & \-- & \textbf{\textcolor{codeblue}{1}} \\ 
+                $x_8$ & 2 & \textbf{\textcolor{codeblue}{0}} & \textbf{\textcolor{codeblue}{1}} & 2 & \textbf{\textcolor{codeblue}{1}} & \textbf{\textcolor{codeblue}{1}} & \textbf{\textcolor{codeblue}{1}} & \-- \\ 
+            \end{tabular}
+            \caption{Hamming distance between observations}
+        \end{center}
+    \end{table}
+
+    Now that we have the Hamming distance between all observations, we must identify if the prediction is correct or not. We will consider the majority class of the 5 nearest neighbors for each observation.
+    
+    \vspace{10pt}
+    \underline{Example}: For $x_1$, the 5 nearest neighbors are $x_3$ and $x_4$ (which are positive), $x_5$, $x_6$ and $x_7$ (which are negative). The majority class is negative, therefore the prediction is incorrect.
+    
+    \newpage
+    We apply the same logic for the rest of the classes, ending up with the following table:
+
+    \begin{table}[H]
+        \begin{center}
+            \begin{threeparttable}
+            \begin{tabular}{c|c|c|c}
+                Observation & True Value & Prediction & Confusion Matrix Terminology\\
+                \hline
+                $x_1$ & P & N & FP\\
+                $x_2$ & P & N & FP\\
+                $x_3$ & P & P & TP\\
+                $x_4$ & P & N & FN\\
+                $x_5$ & N & P & FP\\
+                $x_6$ & N & P & FP\\
+                $x_7$ & N & P & FP\\
+                $x_8$ & N & N & TN\\
+            \end{tabular}
+            \begin{tablenotes}
+                \small
+                \item[]
+                \item[P - Positive observation; N - Negative observation]  
+                \item[TP - True Positive; TN - True Negative; FP - False Positive; FN - False Negative] 
+                \item[] 
+            \end{tablenotes}
+        \end{threeparttable}
+            \caption{Predictions for each observation}
+        \end{center}
+    \end{table}
+
+    With this table, we can know calculate the Precision, Recall and F1-measure using the following formulas:
+
+    \begin{equation}\label{precision}
+        \text{Precision} = \frac{\text{True Positives}}{{\text{True Positives} +
+        \text{False Positives}}}
+    \end{equation}
+
+    \begin{equation}\label{recall}
+        \text{Recall} = \frac{\text{True Positives}}{{\text{True Positives} + \text{False Negatives}}}
+    \end{equation}
+
+    \begin{equation}\label{f1}
+        \text{F1-measure} = 2 \times \frac{{\text{Precision} \times \text{Recall}}}{{\text{Precision} + \text{Recall}}}
+    \end{equation}
+
+    \vspace{10pt}
+    Replacing the corresponding values in the formulas, we get:
+
+    \vspace{10pt}
+    for Precision \eqref{precision} and Recall \eqref{recall}:
+
+    \begin{equation*}
+        \text{Precision} = \frac{1}{1 + 5} \approx 0.1667 \quad \quad
+        \text{Recall} = \frac{1}{1 + 1} = 0.5
+    \end{equation*}
+
+    F1-measure \eqref{f1}:
+
+    \begin{equation}
+        \text{F1-measure} = 2 \times \frac{0.1667 \times 0.5}{0.1667 + 0.5} \approx 0.25
+    \end{equation}
+
+    \vspace{10pt}
+    \item \textbf{Propose a new metric (distance) that improves the latter's performance (i.e., the
+    F1-measure) by three fold.} 
+
 \end{enumerate}
 
 \end{document}
