@@ -59,21 +59,21 @@ Homework I --- Group 003\\
 \large{\textbf{Part I}: Pen and paper}\normalsize
 
 \vspace{20pt}
-\hspace{-20pt}We collected four positive (P) observations, 
+\hspace{-20pt}\textbf{We collected four positive (P) observations,}
 \[
-x_1 = (A,0), \quad x_2 = (B,1), \quad x_3 = (A,1), \quad x_4 = (A,0)
+\boldsymbol{\{x_1 = (A,0), \quad x_2 = (B,1), \quad x_3 = (A,1), \quad x_4 = (A,0)\}}
 \]
-and four negative (N) observations,
+\textbf{and four negative (N) observations,}
 \[
-x_5 = (B,0), \quad x_6 = (B,0), \quad x_7 = (A,1), \quad x_8 = (B,1)
+\boldsymbol{\{x_5 = (B,0), \quad x_6 = (B,0), \quad x_7 = (A,1), \quad x_8 = (B,1)\}}
 \]
 
 
-\hspace{-20pt}Consider the problem of classifying observations as positive or negative.
+\hspace{-20pt}\textbf{Consider the problem of classifying observations as positive or negative.}
 
 \vspace{10pt}
 \begin{enumerate}[leftmargin=\labelsep]
-    \item \textbf{Compute the F1-measure of a $k$NN with $k =  5$ and Hamming distance using a
+    \item \textbf{Compute the F1-measure of a $\mathbf{k}$NN with $\mathbf{k =  5}$ and Hamming distance using a
     leave-one-out evaluation schema. Show all calculus.}
 
     \vspace{10pt}
@@ -162,14 +162,220 @@ x_5 = (B,0), \quad x_6 = (B,0), \quad x_7 = (A,1), \quad x_8 = (B,1)
 
     F1-measure \eqref{f1}:
 
-    \begin{equation}
+    \begin{equation*}
         \text{F1-measure} = 2 \times \frac{0.1667 \times 0.5}{0.1667 + 0.5} \approx 0.25
+    \end{equation*}
+
+    \newpage
+    \item \textbf{Propose a new metric (distance) that improves the latter's performance (i.e., the
+    F1-measure) by three fold.} 
+    
+    \vspace{10pt}
+    
+    To improve the performance of the F1-measure, we can use a weighted distance metric that takes into account the type of data we are working with. In this case, we have two types of data: numeric and categorical. The formula for the new metric is:
+    \begin{equation*}
+        d(x_1,x_2) = \alpha \times d_\text{numeric}(x_1,x_2) + \beta \times d_\text{categorical}(x_1,x_2)
+    \end{equation*}
+
+    where $\alpha$ and $\beta$ are parameters that reveal the importance of each component, generally $\alpha + \beta = 1$.  
+    The distance between two numeric values is calculated using the Euclidean distance, while the distance between two categorical values is calculated using the Hamming distance.
+    
+    \vspace{15pt}
+    \textbf{An additional positive observation was acquired, $\boldsymbol{x_9 = (B,0)}$, and a third variable $\boldsymbol{y_3}$
+    was independently monitored, yielding estimates,}
+    \[
+    \boldsymbol{y_3|P = \{1.1, 0.8, 0.5, 0.9, 0.8\} \quad and \quad y_3|N = \{1, 0.9, 1.2, 0.9\}}
+    \]
+
+    \item \textbf{Considering the nine training observations, learn a Bayesian classifier assuming:
+    (i) $\boldsymbol{y_1}$ and $\boldsymbol{y_2}$ are dependent; (ii) {$\boldsymbol{y_1}$, $\boldsymbol{y_2}$} and {$\boldsymbol{y_3}$} variable sets are independent and equally
+    important; and (iii) $\boldsymbol{y_3}$ is normally distributed. Show all parameters.}
+
+    \vspace{10pt} 
+    With the nine training observations, we can calculate the parameters for the Bayesian classifier.
+    We will refer to the outcome, which can be positive or negative, as $P$ and $N$ respectively, and `class' when we mean both.
+
+    \vspace{10pt}
+    Priors:
+    \begin{equation*}
+        P(P) = \frac{5}{9} \quad \quad P(N) = 1- P(P) = \frac{4}{9} 
+    \end{equation*}
+
+    Likelihoods:
+
+    \begin{equation*}
+        \begin{aligned}
+        P((y_1 = A, y_2 = 0)|P) &= \frac{2}{5} \quad  P((y_1= A, y_2 = 1)|P) &= \frac{1}{5} 
+        \\
+        P((y_1 = A, y_2 = 0)|N) &= \frac{0}{4} \quad  P((y_1 = A, y_2= 1)|N) &= \frac{1}{4} 
+        \end{aligned}
+    \end{equation*}
+
+    \begin{equation*}
+        \begin{aligned}
+        P((y_1 = B, y_2 = 0)|P) &= \frac{1}{5} \quad  P((y_1 = B, y_2 = 1)|P) &= \frac{1}{5} 
+        \\
+        P((y_1 = B, y_2 = 0)|N) &= \frac{2}{4} \quad  P((y_1 = B, y_2 = 1)|N) &= \frac{1}{4} 
+        \end{aligned}
+    \end{equation*}
+
+    \vspace{10pt}
+    For the third variable, we know that it is normally distributed. We can calculate the parameters for each class as follows:
+
+    \begin{equation*}
+        \begin{aligned}
+            \mu_P &= \frac{1.1 + 0.8 + 0.5 + 0.9 + 0.8}{5} = 0.82 
+            \\
+            \\
+            \sigma_P^2 &= \frac{(1.1 - 0.82)^2 + (0.8 - 0.82)^2 + (0.5 - 0.82)^2 + (0.9 - 0.82)^2 + (0.8 - 0.82)^2}{5} \approx 0.21
+        \end{aligned}
+    \end{equation*}
+
+    \begin{equation*}
+        \begin{aligned}
+            \mu_N &= \frac{1 + 0.9 + 1.2 + 0.9}{4} = 1.0
+            \\
+            \\
+            \sigma_N^2 &= \frac{(1 - 1)^2 + (0.9 - 1)^2 + (1.2 - 1)^2 + (0.9 - 1)^2}{4} \approx 0.01
+        \end{aligned}
+    \end{equation*}
+
+    The likelihoods for numeric variables with normal distribution are calculated using the following formula:
+    \begin{equation}\label{normal-distribution-likelihood}
+        \begin{aligned}
+            P(y_z|\mu, \sigma^2) = \frac{1}{\sqrt{2\pi \sigma^2}} \exp\left(-\frac{(y_z - \mu)^2}{2\sigma^2}\right)
+        \end{aligned}
     \end{equation}
 
     \vspace{10pt}
-    \item \textbf{Propose a new metric (distance) that improves the latter's performance (i.e., the
-    F1-measure) by three fold.} 
+    We must now replace $y_3$ with each value in the set $\{1.1, 0.8, 0.5, 0.9, 0.8\}$ and $\{1, 0.9, 1.2, 0.9\}$ 
+    to calculate the likelihoods for each class.
+    Having the parameters for the normal distribution, we can calculate the likelihoods for $y_3$ as per \eqref{normal-distribution-likelihood}:
+    
+    \vspace{10pt}
+    Positive class:
 
+    \begin{equation*}
+        \begin{aligned}
+            &P(y_3 = 1.1|\mu_P, \sigma_P^2) = \frac{1}{\sqrt{2\pi \times 0.21}} \exp\left(-\frac{(1.1 - 0.82)^2}{2 \times 0.21}\right) \approx 0.722\\
+            &P(y_3 = 0.8|\mu_P, \sigma_P^2) = \frac{1}{\sqrt{2\pi \times 0.21}} \exp\left(-\frac{(0.8 - 0.82)^2}{2 \times 0.21}\right) \approx 0.870\\
+            &P(y_3 = 0.5|\mu_P, \sigma_P^2) = \frac{1}{\sqrt{2\pi \times 0.21}} \exp\left(-\frac{(0.5 - 0.82)^2}{2 \times 0.21}\right) \approx 0.682\\
+            &P(y_3 = 0.9|\mu_P, \sigma_P^2) = \frac{1}{\sqrt{2\pi \times 0.21}} \exp\left(-\frac{(0.9 - 0.82)^2}{2 \times 0.21}\right) \approx 0.857
+        \end{aligned}
+    \end{equation*}
+
+
+    \vspace{10pt}
+    Negative class:
+    
+    \begin{equation*}
+        \begin{aligned}
+            &P(y_3 = 1|\mu_N, \sigma_N^2) = \frac{1}{\sqrt{2\pi \times 0.01}} \exp\left(-\frac{(1 - 1)^2}{2 \times 0.01}\right) \approx 0.25\\
+            &P(y_3 = 0.9|\mu_N, \sigma_N^2) = \frac{1}{\sqrt{2\pi \times 0.01}} \exp\left(-\frac{(0.9 - 1)^2}{2 \times 0.01}\right) \approx \\
+            &P(y_3 = 1.2|\mu_N, \sigma_N^2) = \frac{1}{\sqrt{2\pi \times 0.01}} \exp\left(-\frac{(1.2 - 1)^2}{2 \times 0.01}\right) \approx 0.25\\
+        \end{aligned}
+    \end{equation*}
+
+    \vspace{10pt}
+    These parameters, allow us to calculate $P(y_3|class)$ using the next expression:
+
+    \begin{equation*}\label{likelihood}
+        P(y_3 | \mu_\text{class}, \sigma_\text{class}^2) = \prod_{i=1}^{n} P(y_3(i) | \mu_\text{class}, \sigma_\text{class}^2)
+    \end{equation*}
+
+    Replacing \eqref{likelihood} the values for each class, we get:
+
+    
+    \begin{equation*}
+        P(y_3 | \mu_P, \sigma_P^2) \approx bla bla \quad \quad P(y_3 | \mu_N, \sigma_N^2) \approx bla bla
+    \end{equation*}
+
+
+    \vspace{10pt}
+    To estimate $P(\text{P} | y_1, y_2, y_3)$, we can use Bayes' theorem:
+
+    \begin{equation}\label{bayes}
+        P(\text{class}| y_1, y_2, y_3) = \frac{P(y_1, y_2, y_3 | \text{class}) \times P(\text{class})}{P(y_1, y_2, y_3)}
+    \end{equation}
+
+    Since we know $\left\{y_1, y_2\right\}$, $\{y_3\}$ and are independent,
+    we can rewrite $P(y_1, y_2, y_3)$ as $P(y_1, y_2) \cdot P(y_3)$.
+    Rewriting \eqref{bayes} with this, results in:
+
+    \begin{equation}\label{bayes-decomposed}
+        P(\text{class}| y_1, y_2, y_3) = \frac{P(y_1, y_2 | \text{class}) \times P(y_3| \text{class}) \times P(\text{class})}{P(y_1, y_2) \times P(y_3)}
+    \end{equation}
+
+    Now we can calculate $P(\text{P} | y_1, y_2, y_3)$ and $P(\text{N} | y_1, y_2, y_3)$ using \eqref{bayes-decomposed}:
+    
+    \vspace{5pt}
+    Positive class:
+    
+    \begin{equation*}
+        P(\text{P}| y_1, y_2, y_3) = \frac{P(y_1, y_2 | \text{P}) \times P(y_3| \text{P}) \times P(\text{P})}{P(y_1, y_2) \times P(y_3)} = \frac{\frac{1}{5} \times \frac{}{} \times \frac{5}{9}}{\frac{1}{5} \times \frac{}{}}
+    \end{equation*}
+    
+    Negative class:
+    
+    \begin{equation*}
+        P(\text{N}| y_1, y_2, y_3) = \frac{P(y_1, y_2 | \text{N}) \times P(y_3| \text{N}) \times P(\text{N})}{P(y_1, y_2) \times P(y_3)} = \frac{\frac{1}{4} \times \frac{}{} \times \frac{4}{9}}{\frac{1}{4} \times \frac{}{}}
+    \end{equation*}
+
+    \vspace{20pt}
+    \textbf{Consider now three testing observations,} 
+    \begin{equation*}
+        {\boldsymbol{\{(A, 1, 0.8), (B, 1, 1), (B, 0, 0.9)\}}}
+    \end{equation*}
+
+    \item \textbf{Under a MAP assumption, classify each testing observation showing all your
+    calculus.}
+
+    MAP (Maximum A Posteriori) is defined as:
+    
+    \begin{equation}\label{map}
+        \begin{aligned}
+          \hat{z} & = \underset{c_i}{\text{arg max}} \medspace \left\{P(c_i | x)\right\} \\
+                  & = \underset{c_i}{\text{arg max}} \medspace \left\{\frac{P(x | c_i)  \times P(c_i)}{P(x)}\right\} \\
+                  & = \underset{c_i}{\text{arg max}} \medspace \left\{P(x | c_i)  \times P(c_i)\right\} \\
+        \end{aligned}
+    \end{equation}
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    \textbf{At last, consider only the following sentences and their respective connotations,}
+    \[
+    \boldsymbol{\{("Amazing\; run", P), ("I\; like\; it", P), ("To\; tired", N), ("Bad\; run", N)\}}
+    \]
+
+    \item \textbf{Using a naïve Bayes under a ML assumption, classify the new sentence
+    "I like to run". For the likelihoods calculation consider the following formula,}
+
+    \begin{equation*}
+        \boldsymbol{P(T_i|c) = \frac{freq(t_i) + 1}{N_c + V}}
+    \end{equation*}
+
+    \textbf{where $\mathbf{t_i}$ represents a certain term $\mathbf{i}$, $\mathbf{V}$ the number of unique terms in the vocabulary, and
+    $\mathbf{N_c}$ the total number of terms in class $\mathbf{c}$. Show all calculus.}
+
+    
 \end{enumerate}
+
+\vspace{10pt}
+
+\large{\textbf{Part II}: Programming}\normalsize
+
 
 \end{document}
