@@ -341,14 +341,14 @@ Homework I --- Group 003\\
 \vspace{10pt}
 With this, we get:
 \begin{equation*}
-    \mathcal{N}(\mu_{y_3} = 0.82, \sigma_{y_3}^2 = 0.47|P) \quad \mathcal{N}(\mu_{y_3} = 1, \sigma_{y_3}^2 = 0.02|N) \quad \mathcal{N}(\mu_{y_3} = 0.9, \sigma_{y_3}^2 = 0.04)  
+    \mathcal{N}(\mu_{y_3} = 0.82, \sigma_{y_3}^2 = 0.047|P) \quad \mathcal{N}(\mu_{y_3} = 1, \sigma_{y_3}^2 = 0.02|N) \quad \mathcal{N}(\mu_{y_3} = 0.9, \sigma_{y_3}^2 = 0.04)  
 \end{equation*}
 
 \vspace{10pt}
     The normal distribution formula is given by:
     \begin{equation}\label{normal-distribution-likelihood}
         \begin{aligned}
-            P(y_z|\mu, \sigma^2) = \frac{1}{\sqrt{2\pi \sigma^2}} \exp\left(-\frac{(y_z - \mu)^2}{2\sigma^2}\right)
+            \mathcal{N}(y_z|\mu, \sigma^2) \sim P(y_z|\mu, \sigma^2) = \frac{1}{\sqrt{2\pi \sigma^2}} \exp\left(-\frac{(y_z - \mu)^2}{2\sigma^2}\right)
         \end{aligned}
     \end{equation}
 
@@ -359,10 +359,10 @@ With this, we get:
     Positive class:
     \begin{equation*}
         \begin{aligned}
-            &P(y_3 = 1.1|\mu_P, \sigma_P^2) = \frac{1}{\sqrt{2\pi \times 0.47}} \exp\left(-\frac{(1.1 - 0.82)^2}{2 \times 0.47}\right) \approx 0.535\\
-            &P(y_3 = 0.8|\mu_P, \sigma_P^2) = \frac{1}{\sqrt{2\pi \times 0.47}} \exp\left(-\frac{(0.8 - 0.82)^2}{2 \times 0.47}\right) \approx 0.582\\
-            &P(y_3 = 0.5|\mu_P, \sigma_P^2) = \frac{1}{\sqrt{2\pi \times 0.47}} \exp\left(-\frac{(0.5 - 0.82)^2}{2 \times 0.47}\right) \approx 0.522\\
-            &P(y_3 = 0.9|\mu_P, \sigma_P^2) = \frac{1}{\sqrt{2\pi \times 0.47}} \exp\left(-\frac{(0.9 - 0.82)^2}{2 \times 0.47}\right) \approx 0.578
+            &P(y_3 = 1.1|\mu_P, \sigma_P^2) = \frac{1}{\sqrt{2\pi \times 0.047}} \exp\left(-\frac{(1.1 - 0.82)^2}{2 \times 0.047}\right) \approx 0.799\\
+            &P(y_3 = 0.8|\mu_P, \sigma_P^2) = \frac{1}{\sqrt{2\pi \times 0.047}} \exp\left(-\frac{(0.8 - 0.82)^2}{2 \times 0.047}\right) \approx 1.832\\
+            &P(y_3 = 0.5|\mu_P, \sigma_P^2) = \frac{1}{\sqrt{2\pi \times 0.047}} \exp\left(-\frac{(0.5 - 0.82)^2}{2 \times 0.047}\right) \approx 0.619\\
+            &P(y_3 = 0.9|\mu_P, \sigma_P^2) = \frac{1}{\sqrt{2\pi \times 0.047}} \exp\left(-\frac{(0.9 - 0.82)^2}{2 \times 0.047}\right) \approx 1.719
         \end{aligned}
     \end{equation*}
 
@@ -384,7 +384,7 @@ With this, we get:
             &P(y_3 = 1.1|\mu, \sigma^2) = \frac{1}{\sqrt{2\pi \times 0.04}} \exp\left(-\frac{(1.1 - 0.9)^2}{2 \times 0.04}\right) = 0.5 \\
             &P(y_3 = 0.8|\mu, \sigma^2) = \frac{1}{\sqrt{2\pi \times 0.04}} \exp\left(-\frac{(0.8 - 0.9)^2}{2 \times 0.04}\right) = 0.125\\
             &P(y_3 = 0.5|\mu, \sigma^2) = \frac{1}{\sqrt{2\pi \times 0.04}} \exp\left(-\frac{(0.5 - 0.9)^2}{2 \times 0.04}\right) = 2\\
-            &P(y_3 = 0.9|\mu, \sigma^2) = \frac{1}{\sqrt{2\pi \times 0.04}} \exp\left(-\frac{(0.9 - 0.9)^2}{2 \times 0.04}\right) = 0\\
+            &P(y_3 = 0.9|\mu, \sigma^2) = \frac{1}{\sqrt{2\pi \times 0.04}} \exp\left(-\frac{(0.9 - 0.9)^2}{2 \times 0.04}\right) = 1.99\\
             &P(y_3 = 1.0|\mu, \sigma^2) = \frac{1}{\sqrt{2\pi \times 0.04}} \exp\left(-\frac{(1.0 - 0.9)^2}{2 \times 0.04}\right) = 0.125\\
             &P(y_3 = 1.2|\mu, \sigma^2) = \frac{1}{\sqrt{2\pi \times 0.04}} \exp\left(-\frac{(1.2 - 0.9)^2}{2 \times 0.04}\right) = 1.125
         \end{aligned}
@@ -419,8 +419,8 @@ With this, we get:
 
     \begin{equation*}
         \begin{aligned}
-            P(y_3 = 0.8|\mu_N, \sigma_N^2) &= \frac{1}{\sqrt{2\pi \times 0.02}} \exp\left(-\frac{(0.8 - 1)^2}{2 \times 0.02}\right) \approx 2.821\\
-            P(y_3 = 1|\mu_P, \sigma_P^2) &= \frac{1}{\sqrt{2\pi \times 0.47}} \exp\left(-\frac{(1 - 0.82)^2}{2 \times 0.47}\right) \approx 0.535
+            P(y_3 = 0.8|\mu_N, \sigma_N^2) &= \frac{1}{\sqrt{2\pi \times 0.02}} \exp\left(-\frac{(0.8 - 1)^2}{2 \times 0.02}\right) \approx 1.038\\
+            P(y_3 = 1|\mu_P, \sigma_P^2) &= \frac{1}{\sqrt{2\pi \times 0.047}} \exp\left(-\frac{(1 - 0.82)^2}{2 \times 0.047}\right) \approx 1.304
         \end{aligned}
     \end{equation*}
 
@@ -432,10 +432,10 @@ With this, we get:
     \begin{equation*}
         \begin{aligned}
         P(y_1 = A, y_2 = 1, y_3 = 0.8 | P) &= P(y_1 = A, y_2 = 1 | \text{P}) \times P(y_3 = 0.8 | \text{P}) \times P(P) \\
-        &= \frac{1}{5} \times 0.582 \times \frac{5}{9} \approx 0.065\\
+        &= \frac{1}{5} \times 1.832 \times \frac{5}{9} \approx 0.204\\
         \\
         P(y_1 = A, y_2 = 1, y_3 = 0.8 | N) &= P(y_1 = A, y_2 = 1 | \text{N}) \times P(y_3 = 0.8 | \text{N}) \times P(N) \\
-        &= \frac{1}{4} \times 2.197 \times \frac{4}{9} \approx 0.488\\
+        &= \frac{1}{4} \times 1.038 \times \frac{4}{9} \approx 0.115\\
         \end{aligned}
     \end{equation*}
 
@@ -443,7 +443,7 @@ With this, we get:
     \begin{aligned}
         \hat{z}_{(A, 1, 0.8)} &= \underset{c \in \{P,N\}}{\text{arg max}} \medspace \left\{P(y_1 = A, y_2 = 1 | c) P(y_3 = 0.8| c) \times P(c)\right\}\\
                     & = \text{arg max} \medspace \left\{P(y_1, y_2 | P) P(y_3| P) \times P(P); P(y_1, y_2 | N) P(y_3| N) \times P(N)\right\} \\
-                    & = N
+                    & = P
     \end{aligned}
     \end{equation*}
 
@@ -451,10 +451,10 @@ With this, we get:
     \begin{equation*}
         \begin{aligned}
         P(y_1 = B, y_2 = 1, y_3 = 1 | P) &= P(y_1 = B, y_2 = 1 | \text{P}) \times P(y_3 = 1 | \text{P}) \times P(P) \\
-        &= \frac{1}{5} \times 2.821 \times \frac{5}{9} \approx 0.313\\
+        &= \frac{1}{5} \times 1.304 \times \frac{5}{9} \approx 0.145\\
         \\
         P(y_1 = B, y_2 = 1, y_3 = 1 | N) &= P(y_1 = B, y_2 = 1 | \text{N}) \times P(y_3 = 1 | \text{N}) \times P(N) \\
-        &= \frac{1}{4} \times 0.535 \times \frac{4}{9} \approx 0.059\\
+        &= \frac{1}{4} \times 2.821 \times \frac{4}{9} \approx 0.313\\
         \end{aligned}
     \end{equation*}
     
@@ -462,7 +462,7 @@ With this, we get:
         \begin{aligned}
             \hat{z}_{(B, 1, 1)} &= \underset{c \in \{P,N\}}{\text{arg max}} \medspace \left\{P(y_1 = B, y_2 = 1 | c) P(y_3 = 1| c) \times P(c)\right\}\\
                           & = \text{arg max} \medspace \left\{P(y_1, y_2 | P) P(y_3| P) \times P(P); P(y_1, y_2 | N) P(y_3| N) \times P(N)\right\} \\
-                          & = P
+                          & = N
         \end{aligned}
     \end{equation*}
 
@@ -470,7 +470,7 @@ With this, we get:
     \begin{equation*}
         \begin{aligned}
         P(y_1 = B, y_2 = 0, y_3 = 0.9 | P) &= P(y_1 = B, y_2 = 0 | \text{P}) \times P(y_3 = 0.9 | \text{P}) \times P(P) \\
-        &= \frac{1}{5} \times 0.578 \times \frac{5}{9} \approx 0.064\\
+        &= \frac{1}{5} \times 1.719 \times \frac{5}{9} \approx 0.191\\
         \\
         P(y_1 = B, y_2 = 0, y_3 = 0.9 | N) &= P(y_1 = B, y_2 = 0 | \text{N}) \times P(y_3 = 0.9 | \text{N}) \times P(N) \\
         &= \frac{2}{4} \times 2.197 \times \frac{4}{9} \approx 0.488\\
@@ -486,7 +486,7 @@ With this, we get:
     \end{equation*}
 
     \vspace{10pt}
-    Therefore, the predictions for each observation are $N$, $P$ and $N$ respectively.
+    Therefore, the predictions for each observation are $P$, $N$ and $N$, respectively.
 
     \vspace{10pt}
 
