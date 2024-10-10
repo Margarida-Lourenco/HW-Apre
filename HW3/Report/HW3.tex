@@ -1,0 +1,165 @@
+\documentclass[12pt]{article}
+\usepackage[paper=letterpaper,margin=2cm]{geometry}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{enumitem}
+\usepackage{titling}
+\usepackage{multirow}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\definecolor{ISTBlue}{RGB}{0, 139, 255}
+\usepackage[colorlinks=true, linkcolor=red]{hyperref}
+\usepackage{subcaption} % For subfigures
+\usepackage{adjustbox}  % For centering the bottom image
+\usepackage{listings}
+\usepackage{xcolor} % For setting colors
+\usepackage{booktabs} % For better tables
+\usepackage{threeparttable} % For table notes
+
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0.0, 0.514, 0.325}      
+\definecolor{codegray}{rgb}{0.75, 0.75, 0.75}    
+\definecolor{codeblue}{rgb}{0.122, 0.467, 0.706}  
+\definecolor{extraLightGray}{rgb}{0.98, 0.98, 0.98}
+\definecolor{codepink}{rgb}{0.894, 0.0, 0.443}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{extraLightGray},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{codeblue},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepink},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+}
+\lstset{style=mystyle}
+
+\setlength{\droptitle}{-6em}
+
+\begin{document}
+
+\begin{center}
+Aprendizagem 2023\\
+Homework I --- Group 003\\
+(ist1107028, ist1107137)\vskip 1cm
+\end{center}
+
+\large{\textbf{Part I}: Pen and paper}\normalsize
+
+\vspace{10pt}
+\textbf{For questions in this group, show your numerical results with 5 decimals or scientific notation.
+Hint: we highly recommend the use of \texttt{numpy} (e.g., \texttt{linalg.pinv} for inverse) or other programmatic
+facilities to support the calculus involved in both questions (1) and (2).}
+
+\textbf{Below is a training dataset $\mathbf{D}$ composed by two input variables and two output variables, one of 
+which is numerical ($\mathbf{y_{num}}$) and the other categorical ($\mathbf{y_{class}}$) . Consider a polynomial basis function
+$\mathbf{\phi(y_1,y_2) = y_1 \times y_2}$ that transforms the original space into a new one-dimensional space.}
+
+\begin{table}[H]
+    \begin{center}
+        \begin{tabular}{c|cc|cc}
+            D & $y_1$ & $y_2$ & $y_{\text{num}}$ & $y_{\text{class}}$ \\
+            \hline
+            $x_1$ & 1 & 1 & 1.25 & B \\
+            $x_2$ & 1 & 3 & 7.0 & A \\
+            $x_3$ & 3 & 2 & 2.7 & C \\
+            $x_4$ & 3 & 3 & 3.2 & A \\
+            $x_5$ & 2 & 4 & 5.5 & B \\
+        \end{tabular}
+    \end{center}
+\end{table}
+
+\begin{enumerate}
+    \item \textbf{Learn a regression model on the transformed feature space using the OLS closed form
+    solution to predict the continuous output variable $\mathbf{y_{\text{num}}}$.}
+    
+    \item \textbf{Repeat the previous exercise, but this time learn a Ridge regression with penalty
+    factor $\mathbf{\lambda = 1}$. Compare the learnt coeﬃcients with the ones from the previous exercise and
+    discuss how regularization aﬀects them.}
+
+    \item \textbf{Given three new test observations and their corresponding output\\}
+    $\mathbf{x_6 = (2,2,0.7), x_7 = (1,2,1.1),}$ \textbf{ and } $\mathbf{x_8 = (5,1,2.2),}$
+    \textbf{compare the train and test RMSE of the two models obtained in (1) and (2). Explain if the results go according to what is expected.}    
+
+    \item \textbf{Consider an MLP to predict the output $\mathbf{y_\text{class}}$ characterized by the weights}
+    
+    \[
+W^{[1]} = \begin{bmatrix}
+0.1 & 0.1 \\
+0.1 & 0.2 \\
+0.2 & 0.1
+\end{bmatrix}, \quad
+b^{[1]} = \begin{bmatrix}
+0.1 \\
+0 \\
+0.1
+\end{bmatrix}, \quad
+W^{[2]} = \begin{bmatrix}
+1 & 2 & 2 \\
+1 & 2 & 1 \\
+1 & 1 & 1
+\end{bmatrix}, \quad
+b^{[2]} = \begin{bmatrix}
+1 \\
+1 \\
+1
+\end{bmatrix}
+\]
+
+\textbf{the output activation function}
+
+\begin{equation*}
+    \text{softmax}(z_c^\text{[out]}) = \frac{e^{z_c^\text{[out]}}}{\sum_{l=1}^{|C|} e^{z_c^\text{[out]}}}
+\end{equation*}
+
+\textbf{, no activations on the hidden layer(s) and the cross-entropy loss:}
+
+\begin{equation*}
+    \text{CE} = -\sum_{i=1}^{N}\sum_{l=1}^{|C|} t_{l}^{\text{(i)}} \log(Z_{l}^{\text{[out](i)}})
+\end{equation*}
+
+\textbf{Consider also that the output layer of the MLP gives the predictions for the classes A, B and C in this order. Perform one
+stochastic gradient descent update to all the weights and biases with learning rate $\eta = 0.1$
+using the training observation $x_1$.}
+
+\vspace{20pt}
+\large{\textbf{Part II}: Programming}\normalsize
+
+\vspace{10pt}
+\textbf{Consider the parkinsons.csv dataset (available at the course's webpage), where the goal is
+to predict a patient's score on the Unified Parkinson's Disease Rating Scale based on various
+biomedical measurements.
+To answer question (5), average the performance of the models over 10 separate runs. In each
+run, use a different $\mathbf{80-20}$ train test split by setting a \texttt{random\_state = i}, with $\mathbf{i=1...10}$.}
+
+
+\item \textbf{Train a Linear Regression model, an MLP Regressor with 2 hidden layers of 10
+neurons each and no activation functions, and another MLP Regressor with 2 hidden
+layers of 10 neurons each using ReLU activation functions. (Use \texttt{random\_state=0} on the
+MLPs, regardless of the run). Plot a boxplot of the test MAE of each model.}
+
+\item \textbf{Compare a Linear Regression with a MLP with no activations, and explain the impact
+and the importance of using activation functions in a MLP. Support your reasoning with the
+results from the boxplots.}
+
+\item \textbf{Using a $\mathbf{80-20}$ train-test split with \texttt{random\_state=0}, use a Grid Search to tune the
+hyperparameters of an MLP regressor with two hidden layers (size 10 each). The
+parameters to search over are: (i) L2 penalty, with the values $\mathbf{\{0.0001, 0.001, 0.01\}}$; (ii)
+learning rate, with the values $\mathbf{\{0.001, 0.01, 0.1\}}$; and (iii) batch size, with the values
+$\mathbf{\{32, 64, 128\}}$. Plot the test MAE for each combination of hyperparameters, report the
+best combination, and discuss the trade-oﬀs between the combinations.}
+\end{enumerate}
+
+\end{document}
