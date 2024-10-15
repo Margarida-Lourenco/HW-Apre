@@ -85,10 +85,107 @@ $\mathbf{\phi(y_1,y_2) = y_1 \times y_2}$ that transforms the original space int
     \item \textbf{Learn a regression model on the transformed feature space using the OLS closed form
     solution to predict the continuous output variable $\mathbf{y_{\text{num}}}$.}
     
+    \vspace{10pt}
+    The first step will be to calculate the transformed feature space for each observation using the polynomial basis function:
+    
+    \begin{equation}\label{eq:phi}
+        \phi(y_1, y_2) = y_1 \times y_2
+    \end{equation}
+
+    By applying \eqref{eq:phi} to each observation, we get the following transformed feature space:
+
+    \begin{equation*}
+        \begin{aligned}
+            \phi(x_1) &= 1 \times 1 = 1 \qquad \phi(x_2) = 1 \times 3 = 3 \qquad \phi(x_3) = 3 \times 2 = 6\\
+            \phi(x_4) &= 3 \times 3 = 9 \qquad \phi(x_5) = 2 \times 4 = 8 \\
+        \end{aligned}
+    \end{equation*}
+
+    \vspace{10pt}
+    We end up with the following transformed feature space: $\phi(y_1, y_2) = [1, 3, 6, 9, 8]$
+    
+    \vspace{10pt}
+    The regression model in the transformed feature space is given by:
+    
+    \begin{equation*}
+        z = w_0 + w_1 \cdot \phi(y_1, y_2)
+    \end{equation*}
+
+    \vspace{10pt}
+    The next step is to learn a regression model using the OLS closed form solution which, for this exercise, is given by:
+    \begin{equation*}
+        W = (\Phi^T \Phi)^{-1} \Phi^T y_\text{num}
+    \end{equation*}
+
+    where $\Phi$ is the design matrix and $y_\text{num}$ is the continuous output variable. 
+
+    \begin{equation*}
+        \Phi = \begin{bmatrix}
+            1 & 1 \\
+            1 & 3 \\
+            1 & 6 \\
+            1 & 9 \\
+            1 & 8
+        \end{bmatrix} \qquad
+        y_\text{num} = \begin{bmatrix}
+            1.25 \\
+            7.0 \\
+            2.7 \\
+            3.2 \\
+            5.5
+        \end{bmatrix}
+    \end{equation*}
+
+    As suggested in the hint, we will use \texttt{numpy} to calculate the weights $W$:
+
+    \vspace{10pt}
+    \lstinputlisting[language=Python]{./Part I/1.py}
+
+    \vspace{10pt}
+    The output of the code above is $[3.3159292,  0.11371681]$.\\ 
+    Therefore, the weights are $w_0 = 3.3159292$ and $w_1 = 0.11371681$.
+
+    \vspace{10pt}
+    The regression model is then given by:
+    \begin{equation*}
+        y_\text{num} = 3.3159292 + 0.11371681 \cdot \phi(y_1, y_2)
+    \end{equation*}
+
     \item \textbf{Repeat the previous exercise, but this time learn a Ridge regression with penalty
     factor $\mathbf{\lambda = 1}$. Compare the learnt coeﬃcients with the ones from the previous exercise and
     discuss how regularization aﬀects them.}
 
+    \vspace{10pt}
+    The Ridge regression model is given by:
+    \begin{equation*}
+        W = (\Phi^T \Phi + \lambda I)^{-1} \Phi^T y_\text{num}
+    \end{equation*}
+    
+    where $\Phi$ is the design matrix, $y_\text{num}$ is the continuous output variable (which remain the same as the previous exercise), and $\lambda$ is the penalty factor (this being the only difference compared to the first exercise).
+
+    \vspace{10pt}
+    \lstinputlisting[language=Python]{./Part I/2.py}
+
+    \vspace{10pt}
+    The output of the code above is $[1.81808511, 0.32375887]$.\\
+    Therefore, the weights are $w_0 = 1.81808511$ and $w_1 = 0.32375887$.
+
+    \vspace{10pt}
+    The Ridge regression model is then given by:
+    \begin{equation*}
+        y_\text{num} = 1.81808511 + 0.32375887 \cdot \phi(y_1, y_2)
+    \end{equation*}
+
+    \vspace{10pt}
+    Comparing the weights obtained in the OLS and Ridge regression models, we can see that in the Ridge regression model $w_0$ is smaller and $w_1$ is larger than the corresponding OLS model weights.
+
+    The regularization term in the Ridge regression model penalizes large weights, but it allows for the weights to increase or decrease relative to one another based on the data. In this case, the regularization reduces the bias term $w_0$, as the model learns to rely more on the feature $w_1$
+    to explain the variance in the target variable. This reduces the need for a large bias term, helping to prevent overfitting and stabilizing the model's predictions.
+
+    These results suggest that the feature has a strong positive correlation with the target variable. As a result, $w_1$ increases to better capture this relationship, allowing $w_0$
+    to decrease.
+
+    % fazer normalização! 
     \item \textbf{Given three new test observations and their corresponding output\\}
     $\mathbf{x_6 = (2,2,0.7), x_7 = (1,2,1.1),}$ \textbf{ and } $\mathbf{x_8 = (5,1,2.2),}$
     \textbf{compare the train and test RMSE of the two models obtained in (1) and (2). Explain if the results go according to what is expected.}    
@@ -126,13 +223,289 @@ b^{[2]} = \begin{bmatrix}
 
 \textbf{, no activations on the hidden layer(s) and the cross-entropy loss:}
 
-\begin{equation*}
-    \text{CE} = -\sum_{i=1}^{N}\sum_{l=1}^{|C|} t_{l}^{\text{(i)}} \log(Z_{l}^{\text{[out](i)}})
-\end{equation*}
+\begin{equation}\label{eq:CE}
+    \text{CE} = -\sum_{i=1}^{N}\sum_{l=1}^{|C|} t_{l}^{\text{(i)}} \log(X_{l}^{\text{[out](i)}})
+\end{equation}
 
 \textbf{Consider also that the output layer of the MLP gives the predictions for the classes A, B and C in this order. Perform one
 stochastic gradient descent update to all the weights and biases with learning rate $\eta = 0.1$
 using the training observation $x_1$.}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=10cm]{./Part I/MLP.pdf}
+    \caption{MLP architecture}
+\end{figure}
+
+\vspace{10pt}
+We may also draw the corresponding scheme:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=14cm]{./Part I/Scheme.png}
+    \caption{MLP Scheme}
+\end{figure}
+
+To begin, we initiate the process with the \textbf{forward propagation}. Below are the key equations to calculate the values of each
+layer, $x^{[p]}_i$:
+
+\begin{align*}
+z^{[p]}_i = W^{[p]} \, x^{[p-1]}_i + b^{[p]} & \qquad\qquad
+x^{[p]}_i = f\left(z^{[p]}_i\right)
+\end{align*}
+
+$f$ is the activation function, for every layer, provided in the statement.
+
+\begin{equation*}
+    f = \text{softmax}(z_c^\text{[out]}) = \frac{e^{z_c^\text{[out]}}}{\sum_{l=1}^{|C|} e^{z_c^\text{[out]}}}
+\end{equation*}
+
+\vspace{10pt}
+In this notation, the value $p$ is the index of the MLP layer.
+
+% colocar esquema de forward propagation como o professor tem nos slides!
+
+We may now calculate the values of each node in the network for the training observation:
+
+\vspace{10pt}
+\fbox{$x_1$}
+\begin{equation*}
+    \begin{aligned}
+        z^{[1]} &= W^{[1]} \, x^{[0]} + b^{[1]} = \begin{bmatrix}
+            0.1 & 0.1 \\
+            0.1 & 0.2 \\
+            0.2 & 0.1
+        \end{bmatrix} \begin{bmatrix}
+            1 \\
+            1
+        \end{bmatrix} + \begin{bmatrix}
+            0.1 \\
+            0 \\
+            0.1
+        \end{bmatrix} = \begin{bmatrix}
+            0.3 \\
+            0.3 \\
+            0.4
+        \end{bmatrix} \\
+    \end{aligned}
+\end{equation*}
+
+\begin{equation*}
+    \begin{aligned}
+        z^{[2]} &= W^{[2]} \, z^{[1]} + b^{[2]} = \begin{bmatrix}
+            1 & 2 & 2 \\
+            1 & 2 & 1 \\
+            1 & 1 & 1
+        \end{bmatrix} \begin{bmatrix}
+            0.3 \\  
+            0.3 \\
+            0.4 \\
+        \end{bmatrix} + \begin{bmatrix}
+            1 \\
+            1 \\
+            1
+        \end{bmatrix} = \begin{bmatrix}
+            2.7 \\
+            2.3 \\
+            2.0
+        \end{bmatrix} \\
+        x^{[2]} &= f\left(z^{[2]}\right) = \begin{bmatrix}
+            0.461 \\
+            0.309 \\
+            0.229
+        \end{bmatrix}
+    \end{aligned}
+\end{equation*}
+
+
+Now, we can calculate the \textbf{backward propagation} to update the weights and biases.\\
+Firstly, we calculate the derivatives:
+
+\begin{itemize}
+    \item Derivative of the cross-entropy loss function:
+    
+    \begin{equation*}
+        \begin{aligned}
+            \frac{\partial \text{CE}}{\partial Z_{l}^{\text{[out]}}} &= -\sum_{i=1}^{N} \frac{t_{l}^{\text{(i)}}}{X_{l}^{\text{[out](i)}}} = x^{\text{[2]}} - t
+        \end{aligned}
+    \end{equation*}
+
+    \item Derivative of the softmax function:
+    
+    \begin{equation*}
+        \begin{aligned}
+            \frac{\partial f}{\partial z_c^\text{[out]}} &= f(z_c^\text{[out]}) \cdot (1 - f(z_c^\text{[out]}))
+        \end{aligned}
+    \end{equation*}
+
+    \item Derivatives for the z[i]:
+    
+    \begin{equation*}
+        \begin{aligned}
+            &\frac{\partial x^{[i]}(z^{[i]})}{\partial z^{[i]}} = f(z^{[i]})(1 - f(z^{[i]})) \qquad \frac{\partial z^{[i]}(W^{[i]}, b^{[i]}, x^{[i-1]})}{\partial W^{[i]}} = x^{[i-1]}\\
+            &\frac{\partial z^{[i]}(W^{[i]}, b^{[i]}, x^{[i-1]})}{\partial b^{[i]}} = 1 \qquad \quad \quad \frac{\partial z^{[i]}(W^{[i]}, b^{[i]}, x^{[i-1]})}{\partial x^{[i-1]}} = W^{[i]}\\
+        \end{aligned}
+    \end{equation*}
+
+\end{itemize}
+
+\vspace{10pt}
+To start the recursion for the backward propagation, we calculate the delta in the output layer:
+
+\begin{equation*}
+    \begin{aligned}
+        \delta^{[2]} &= \frac{\partial E}{\partial \mathbf{x}^{[2]}} \circ \frac{\partial \mathbf{x}^{[2]}}{\partial \mathbf{z}^{[2]}} = (\mathbf{x}^{[2]} - t) \circ f(\mathbf{z}^{[2]})(1 - f(\mathbf{z}^{[2]}))\\
+        \\
+        &=\left( \begin{pmatrix} 
+            0.461 \\
+            0.309 \\
+            0.229
+            \end{pmatrix} -
+            \begin{pmatrix} 
+            0\\     
+            1\\
+            0 
+            \end{pmatrix} \right)
+            \circ f\begin{pmatrix}
+            2.7 \\
+            2.3 \\
+            2.0 
+            \end{pmatrix}
+            \cdot \left(1 - f\begin{pmatrix}
+            2.7 \\
+            2.3 \\
+            2.0
+            \end{pmatrix}\right) = \begin{pmatrix}
+            0.106\\
+            0.071\\
+            0.052
+            \end{pmatrix}
+    \end{aligned}
+\end{equation*}
+
+We can now calculate the delta for the hidden layer:
+
+\begin{equation*}
+    \begin{aligned}
+        \delta^{[1]} &= \left(\frac{\partial \mathbf{z}^{[2]}}{\partial \mathbf{x}^{[1]}}\right)^T \cdot \delta^{[2]} \circ \frac{\partial \mathbf{z}^{[1]}}{\partial \mathbf{x}^{[1]}} = \left(\mathbf{W}^{[2]}\right)^T \cdot \delta^{[2]} \circ f(\mathbf{z}^{[1]})(1 - f(\mathbf{z}^{[1]}))\\
+        \\
+        &= \begin{pmatrix}
+            1 & 1 & 1\\
+            2 & 2 & 1\\
+            2 & 1 & 1
+        \end{pmatrix} \cdot \begin{pmatrix}
+            0.106\\
+            0.071\\
+            0.052
+        \end{pmatrix} \circ f\begin{pmatrix}
+            0.3\\
+            0.3\\
+            0.4
+        \end{pmatrix} \circ \left(1 - f\begin{pmatrix}
+            0.3\\
+            0.3\\
+            0.4
+        \end{pmatrix}\right) = \begin{pmatrix}
+            0.074\\
+            0.131\\
+            0.108
+        \end{pmatrix}
+    \end{aligned}
+\end{equation*}
+
+Finally, we can calculate the gradients for the weights and biases:
+
+\begin{equation*}
+    \begin{aligned}
+        \frac{\partial E}{\partial \mathbf{W}^{[1]}} &= \delta^{[1]} \cdot \frac{\partial \mathbf{z}^{[1]}}{\partial \mathbf{W}^{[1]}} = \delta^{[1]} \cdot \left(\mathbf{x}^{[0]}\right)^T \\
+        &= \begin{pmatrix}
+            0.074\\
+            0.131\\
+            0.108
+        \end{pmatrix} \cdot \begin{pmatrix}
+            1 & 1 
+        \end{pmatrix} = \begin{pmatrix}
+            0.074 & 0.074\\
+            0.131 & 0.131\\
+            0.108 & 0.108
+        \end{pmatrix}\\
+        \\
+        \mathbf{W}^{[1]} &= \mathbf{W}^{[1]} - \eta \cdot \frac{\partial E}{\partial \mathbf{W}^{[1]}} = \begin{pmatrix}
+            0.1 & 0.1\\
+            0.1 & 0.2\\
+            0.2 & 0.1
+        \end{pmatrix} - 0.1 \cdot \begin{pmatrix}
+            0.074 & 0.074\\
+            0.131 & 0.131\\
+            0.108 & 0.108
+        \end{pmatrix} = \begin{pmatrix}
+            0.0926 & 0.0926\\
+            0.0869 & 0.1869\\
+            0.1892 & 0.0892
+        \end{pmatrix}\\
+        \\
+        \frac{\partial E}{\partial \mathbf{b}^{[1]}}&= \delta^{[1]} \cdot \frac{{\partial \mathbf{z}^{[1]}}^T}{\partial \mathbf{b}^{[1]}} = \\
+        \\
+        \mathbf{b}^{[1]} &= \mathbf{b}^{[1]} - \eta \cdot \frac{\partial E}{\partial \mathbf{b}^{[1]}} = \begin{pmatrix}
+            0.1\\
+            0\\
+            0.1
+        \end{pmatrix} - 0.1 \cdot \begin{pmatrix}
+            
+        \end{pmatrix} = \begin{pmatrix}
+            0.1\\
+            0\\
+            0.1
+        \end{pmatrix}
+    \end{aligned}
+\end{equation*}
+
+\begin{equation*}
+    \begin{aligned}
+        \\
+        \frac{\partial E}{\partial \mathbf{W}^{[2]}} &= \delta^{[2]} \cdot \frac{\partial \mathbf{z}^{[2]}}{\partial \mathbf{W}^{[2]}} = \delta^{[2]} \cdot \left(\mathbf{z}^{[1]}\right)^T \\
+        &= \begin{pmatrix}
+            0.106\\
+            0.071\\
+            0.052
+        \end{pmatrix} \cdot \begin{pmatrix}
+            0.3 & 0.3 & 0.4
+        \end{pmatrix} = \begin{pmatrix}
+            0.032 & 0.032 & 0.042\\
+            0.021 & 0.021 & 0.028\\
+            0.016 & 0.016 & 0.021
+        \end{pmatrix}\\
+        \\
+        \mathbf{W}^{[2]} &= \mathbf{W}^{[2]} - \eta \cdot \frac{\partial E}{\partial \mathbf{W}^{[2]}} = \begin{pmatrix}
+            1 & 2 & 2\\
+            1 & 2 & 1\\
+            1 & 1 & 1
+        \end{pmatrix} - 0.1 \cdot \begin{pmatrix}
+            0.032 & 0.032 & 0.042\\
+            0.021 & 0.021 & 0.028\\
+            0.016 & 0.016 & 0.021
+        \end{pmatrix} \\ &= \begin{pmatrix}
+            0.997 & 1.997 & 1.997\\
+            0.998 & 1.998 & 0.998\\
+            0.998 & 0.998 & 0.998
+        \end{pmatrix}\\
+        \\
+        \frac{\partial E}{\partial \mathbf{b}^{[2]}}&= \delta^{[2]} \cdot \frac{{\partial \mathbf{z}^{[2]}}^T}{\partial \mathbf{b}^{[2]}} = \\
+        \\
+        \mathbf{b}^{[2]} &= \mathbf{b}^{[2]} - \eta \cdot \frac{\partial E}{\partial \mathbf{b}^{[2]}} = \begin{pmatrix}
+            0.1\\
+            0\\
+            0.1
+        \end{pmatrix} - 0.1 \cdot \begin{pmatrix}
+            0\\
+            0\\
+            0
+        \end{pmatrix} = \begin{pmatrix}
+            0.1\\
+            0\\
+            0.1
+        \end{pmatrix}
+    \end{aligned}
+\end{equation*}
 
 \vspace{20pt}
 \large{\textbf{Part II}: Programming}\normalsize
