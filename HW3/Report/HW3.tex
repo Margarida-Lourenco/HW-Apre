@@ -142,13 +142,13 @@ $\mathbf{\phi(y_1,y_2) = y_1 \times y_2}$ that transforms the original space int
     \lstinputlisting[language=Python]{./Part I/1.py}
 
     \vspace{10pt}
-    The output of the code above is $[3.3159292,  0.11371681]$.\\ 
-    Therefore, the weights are $w_0 = 3.3159292$ and $w_1 = 0.11371681$.
+    The output of the code above is $[3.31593 0.11372]$.\\ 
+    Therefore, the weights are $w_0 = 3.31593$ and $w_1 = 0.11372$.
 
     \vspace{10pt}
     The regression model is then given by:
     \begin{equation*}
-        y_\text{num} = 3.3159292 + 0.11371681 \cdot \phi(y_1, y_2)
+        y_\text{num} = 3.31593 + 0.11372 \cdot \phi(y_1, y_2)
     \end{equation*}
 
     \item \textbf{Repeat the previous exercise, but this time learn a Ridge regression with penalty
@@ -167,17 +167,37 @@ $\mathbf{\phi(y_1,y_2) = y_1 \times y_2}$ that transforms the original space int
     \lstinputlisting[language=Python]{./Part I/2.py}
 
     \vspace{10pt}
-    The output of the code above is $[1.81808511, 0.32375887]$.\\
-    Therefore, the weights are $w_0 = 1.81808511$ and $w_1 = 0.32375887$.
+    The output of the code above is $[1.81809 0.32376]$.\\
+    Therefore, the weights are $w_0 = 1.81809$ and $w_1 = 0.32376$.
 
     \vspace{10pt}
     The Ridge regression model is then given by:
     \begin{equation*}
-        y_\text{num} = 1.81808511 + 0.32375887 \cdot \phi(y_1, y_2)
+        y_\text{num} = 1.81809 + 0.32376 \cdot \phi(y_1, y_2)
+    \end{equation*}
+
+    In order to compare the weights obtained in the OLS and Ridge regression models, we must first normalize the data:
+
+    \vspace{10pt}
+    normalization for the OLS model:
+    \begin{equation*}
+        \begin{aligned}
+            {w_0}_\text{normalized} &= \frac{3.31593}{3.31593 + 1.81809} = 0.64587 \\
+            {w_1}_\text{normalized} &= \frac{0.11372}{0.11372 + 0.32376} = 0.25994
+        \end{aligned}
     \end{equation*}
 
     \vspace{10pt}
-    Comparing the weights obtained in the OLS and Ridge regression models, we can see that in the Ridge regression model $w_0$ is smaller and $w_1$ is larger than the corresponding OLS model weights.
+    Normalization for the Ridge Regression model:
+    \begin{equation*}
+        \begin{aligned}
+            {w_0}_\text{normalized} &= \frac{1.81809}{3.31593 + 1.81809} = 0.35413 \\
+            {w_1}_\text{normalized} &= \frac{0.32376}{0.11372 + 0.32376} = 0.74006
+        \end{aligned}
+    \end{equation*}
+
+    \vspace{10pt}
+    Comparing the normalized weights obtained in the OLS and Ridge regression models, we can see that in the Ridge regression model $w_0$ is smaller and $w_1$ is larger than the corresponding OLS model weights.
 
     The regularization term in the Ridge regression model penalizes large weights, but it allows for the weights to increase or decrease relative to one another based on the data. In this case, the regularization reduces the bias term $w_0$, as the model learns to rely more on the feature $w_1$
     to explain the variance in the target variable. This reduces the need for a large bias term, helping to prevent overfitting and stabilizing the model's predictions.
@@ -185,11 +205,127 @@ $\mathbf{\phi(y_1,y_2) = y_1 \times y_2}$ that transforms the original space int
     These results suggest that the feature has a strong positive correlation with the target variable. As a result, $w_1$ increases to better capture this relationship, allowing $w_0$
     to decrease.
 
-    % fazer normalização! 
+    \vspace{10pt}
     \item \textbf{Given three new test observations and their corresponding output\\}
     $\mathbf{x_6 = (2,2,0.7), x_7 = (1,2,1.1),}$ \textbf{ and } $\mathbf{x_8 = (5,1,2.2),}$
     \textbf{compare the train and test RMSE of the two models obtained in (1) and (2). Explain if the results go according to what is expected.}    
 
+    \vspace{10pt}
+    The Root Mean Squared Error (RMSE) is given by:
+    \begin{equation*}
+        \text{RMSE} = \sqrt{\frac{1}{N} \sum_{i=1}^{N} (z_{i} - \tilde{z}_{i})^2}
+    \end{equation*}
+
+    where $\tilde{z}_{i}$ is the predicted value, $z_{i}$ is the true value and $N$ is the number of observations (in this case, N = 8).
+
+    \vspace{10pt}
+    \underline{OLS model:}
+
+    \vspace{10pt}
+    Using the values of the weights obtained in the first exercise, we can calculate the predicted values for the test observations:
+    \begin{equation*}
+        \footnotesize
+        \underbrace{
+        \Phi = \begin{bmatrix}
+            1 & 1 \\
+            1 & 3 \\
+            1 & 6 \\
+            1 & 9 \\
+            1 & 8 
+        \end{bmatrix} \land w = \begin{bmatrix}
+            3.31593 \\
+            0.11372
+        \end{bmatrix} \Rightarrow \tilde{z} = \begin{bmatrix}
+            3.42965 \\
+            3.65709 \\
+            3.99825 \\
+            4.33941 \\
+            4.22569
+        \end{bmatrix} }_{\text{\colorbox{codeblue}{\textcolor{white}{train observations}}}}
+        \quad \underbrace{
+            \Phi = \begin{bmatrix}
+            1 & 4 \\
+            1 & 2 \\
+            1 & 5 
+        \end{bmatrix} \land w = \begin{bmatrix}
+            3.31593 \\
+            0.11372
+        \end{bmatrix} \Rightarrow \tilde{z} = \begin{bmatrix}
+            3.77081 \\
+            3.54337 \\
+            3.88453
+        \end{bmatrix}
+        }_{\text{\colorbox{codepink}{\textcolor{white}{test observations}}}}
+    \end{equation*}
+
+    Finally, we take $z = [\textcolor{codeblue}{1.25}, \textcolor{codeblue}{7.0}, \textcolor{codeblue}{2.7}, \textcolor{codeblue}{3.2}, \textcolor{codeblue}{5.5}, \textcolor{codepink}{0.7}, \textcolor{codepink}{1.1}, \textcolor{codepink}{2.2}]$ along with the predicted values to calculate the two RMSE for the OLS model.
+
+    \begin{equation*}
+        \text{RMSE}_{\text{train}(x_1\--x_5)} = \sqrt{\frac{1}{8} \sum_{i=1}^{8} (z_{i} - \tilde{z}_{i})^2} = \sqrt{\frac{1}{8} \times 20.53350} = 1.60209
+    \end{equation*}
+
+    \begin{equation*}
+        \text{RMSE}_{\text{test}(x_6\--x_8)} = \sqrt{\frac{1}{8} \sum_{i=1}^{8} (z_{i} - \tilde{z}_{i})^2} = \sqrt{\frac{1}{8} \times 18.23757} = 1.50987
+    \end{equation*}
+    
+    \vspace{10pt}
+    As expected, the RMSE for the test observations is slightly lower than the RMSE for the train observations, being close to one another. This is a good sign that the model is generalizing well to new data.
+    
+    \vspace{10pt}
+    \underline{Ridge Regression model:}
+
+    \vspace{10pt}
+    Repeating the exact same process for the Ridge model, we get the following predicted values:
+    \begin{equation*}
+        \footnotesize
+        \underbrace{
+        \Phi = \begin{bmatrix}
+            1 & 1 \\
+            1 & 3 \\
+            1 & 6 \\
+            1 & 9 \\
+            1 & 8 
+        \end{bmatrix} \land w = \begin{bmatrix}
+            1.81809 \\
+            0.32376
+        \end{bmatrix} \Rightarrow \tilde{z} = \begin{bmatrix}
+            2.14185 \\
+            2.78937 \\
+            3.76065 \\
+            4.73193 \\
+            4.40817
+        \end{bmatrix}
+        }_{\text{\colorbox{codeblue}{\textcolor{white}{train observations}}}}
+        \quad \underbrace{
+            \Phi = \begin{bmatrix}
+            1 & 4 \\
+            1 & 2 \\
+            1 & 5 
+        \end{bmatrix} \land w = \begin{bmatrix}
+            1.81809 \\
+            0.32376
+        \end{bmatrix} \Rightarrow \tilde{z} = \begin{bmatrix}
+            3.11313 \\
+            2.46561 \\
+            3.43689
+        \end{bmatrix}
+        }_{\text{\colorbox{codepink}{\textcolor{white}{test observations}}}}
+    \end{equation*}
+    
+    We take $z = [\textcolor{codeblue}{1.25}, \textcolor{codeblue}{7.0}, \textcolor{codeblue}{2.7}, \textcolor{codeblue}{3.2}, \textcolor{codeblue}{5.5}, \textcolor{codepink}{0.7}, \textcolor{codepink}{1.1}, \textcolor{codepink}{2.2}]$ along with the predicted values to calculate the RMSE for the Ridge model.
+
+    \begin{equation*}
+        \text{RMSE}_{\text{train}(x_1\--x_5)} = \sqrt{\frac{1}{8} \sum_{i=1}^{8} (z_{i} - \tilde{z}_{i})^2} = \sqrt{\frac{1}{8} \times 23.18868} = 1.70252
+    \end{equation*}
+ 
+    \begin{equation*}
+        \text{RMSE}_{\text{test}(x_6\--x_8)} = \sqrt{\frac{1}{8} \sum_{i=1}^{8} (z_{i} - \tilde{z}_{i})^2} = \sqrt{\frac{1}{8} \times 9.21798} = 1.07343
+    \end{equation*}
+
+    \vspace{10pt}
+    The RMSE for the test observations is significantly lower than the RMSE for the train observations, which is a sign of underfitting. This suggests that the Ridge regression model is not capturing the underlying patterns in the data as well as the OLS model. The regularization term in the Ridge regression model may be too strong, causing the model to oversimplify the relationship between the features and the target variable.
+
+    \vspace{10pt}
     \item \textbf{Consider an MLP to predict the output $\mathbf{y_\text{class}}$ characterized by the weights}
     
     \[
@@ -233,7 +369,7 @@ using the training observation $x_1$.}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=10cm]{./Part I/MLP.pdf}
+    \includegraphics[width=10cm]{./Part I/MLP_corrected.pdf}
     \caption{MLP architecture}
 \end{figure}
 
@@ -241,7 +377,7 @@ using the training observation $x_1$.}
 We may also draw the corresponding scheme:
 \begin{figure}[H]
     \centering
-    \includegraphics[width=14cm]{./Part I/Scheme.png}
+    \includegraphics[width=12cm]{./Part I/Scheme.png}
     \caption{MLP Scheme}
 \end{figure}
 
@@ -349,7 +485,7 @@ Firstly, we calculate the derivatives:
 \end{itemize}
 
 \vspace{10pt}
-To start the recursion for the backward propagation, we calculate the delta in the output layer:
+To start the recursion for the \textbf{backward propagation}, we calculate the deltas (for the output layer and the hidden layer):
 
 \begin{equation*}
     \begin{aligned}
@@ -370,63 +506,74 @@ To start the recursion for the backward propagation, we calculate the delta in t
             2.3 \\
             2.0 
             \end{pmatrix}
-            \cdot \left(1 - f\begin{pmatrix}
+            \left(1 - f\begin{pmatrix}
             2.7 \\
             2.3 \\
             2.0
             \end{pmatrix}\right) = \begin{pmatrix}
-            0.106\\
-            0.071\\
+            0.461 \\
+            -0.691 \\
+            0.229
+            \end{pmatrix} \circ \begin{pmatrix}
+            0.248 \\
+            0.214 \\
+            0.177
+            \end{pmatrix} = \begin{pmatrix}
+            0.114 \\
+            -0.148 \\
             0.052
             \end{pmatrix}
     \end{aligned}
 \end{equation*}
 
-We can now calculate the delta for the hidden layer:
-
 \begin{equation*}
     \begin{aligned}
-        \delta^{[1]} &= \left(\frac{\partial \mathbf{z}^{[2]}}{\partial \mathbf{x}^{[1]}}\right)^T \cdot \delta^{[2]} \circ \frac{\partial \mathbf{z}^{[1]}}{\partial \mathbf{x}^{[1]}} = \left(\mathbf{W}^{[2]}\right)^T \cdot \delta^{[2]} \circ f(\mathbf{z}^{[1]})(1 - f(\mathbf{z}^{[1]}))\\
+        \delta^{[1]} &= \left(\frac{\partial \mathbf{z}^{[2]}}{\partial \mathbf{x}^{[1]}}\right)^T \cdot \delta^{[2]} \circ \mathbf{z}^{[1]} = \left(\mathbf{W}^{[2]}\right)^T \cdot \delta^{[2]} \circ \mathbf{z}^{[1]}\\
         \\
         &= \begin{pmatrix}
             1 & 1 & 1\\
             2 & 2 & 1\\
             2 & 1 & 1
         \end{pmatrix} \cdot \begin{pmatrix}
-            0.106\\
-            0.071\\
+            0.114 \\
+            -0.148 \\
             0.052
-        \end{pmatrix} \circ f\begin{pmatrix}
+        \end{pmatrix} \circ \begin{pmatrix}
             0.3\\
             0.3\\
             0.4
-        \end{pmatrix} \circ \left(1 - f\begin{pmatrix}
+        \end{pmatrix} = \begin{pmatrix}
+            0.018 \\
+            -0.016 \\
+            0.132 
+        \end{pmatrix} \circ \begin{pmatrix}
             0.3\\
             0.3\\
             0.4
-        \end{pmatrix}\right) = \begin{pmatrix}
-            0.074\\
-            0.131\\
-            0.108
+        \end{pmatrix} = \begin{pmatrix}
+            0.0054 \\
+            -0.0048 \\
+            0.0528
         \end{pmatrix}
     \end{aligned}
 \end{equation*}
 
-Finally, we can calculate the gradients for the weights and biases:
+\vspace{10pt}
+Finally, we can \textbf{update the weights and biases} with the gradient descent:
 
 \begin{equation*}
     \begin{aligned}
         \frac{\partial E}{\partial \mathbf{W}^{[1]}} &= \delta^{[1]} \cdot \frac{\partial \mathbf{z}^{[1]}}{\partial \mathbf{W}^{[1]}} = \delta^{[1]} \cdot \left(\mathbf{x}^{[0]}\right)^T \\
         &= \begin{pmatrix}
-            0.074\\
-            0.131\\
-            0.108
+            0.0054 \\
+            -0.0048 \\
+            0.0528
         \end{pmatrix} \cdot \begin{pmatrix}
             1 & 1 
         \end{pmatrix} = \begin{pmatrix}
-            0.074 & 0.074\\
-            0.131 & 0.131\\
-            0.108 & 0.108
+            0.0054 & 0.0054\\
+            -0.0048 & -0.0048\\
+            0.0528 & 0.0528
         \end{pmatrix}\\
         \\
         \mathbf{W}^{[1]} &= \mathbf{W}^{[1]} - \eta \cdot \frac{\partial E}{\partial \mathbf{W}^{[1]}} = \begin{pmatrix}
@@ -434,27 +581,37 @@ Finally, we can calculate the gradients for the weights and biases:
             0.1 & 0.2\\
             0.2 & 0.1
         \end{pmatrix} - 0.1 \cdot \begin{pmatrix}
-            0.074 & 0.074\\
-            0.131 & 0.131\\
-            0.108 & 0.108
+            0.0054 & 0.0054\\
+            -0.0048 & -0.0048\\
+            0.0528 & 0.0528
         \end{pmatrix} = \begin{pmatrix}
-            0.0926 & 0.0926\\
-            0.0869 & 0.1869\\
-            0.1892 & 0.0892
+            0.09946 & 0.09946\\
+            0.09952 & 0.19952\\
+            0.19472 & 0.09472
         \end{pmatrix}\\
         \\
-        \frac{\partial E}{\partial \mathbf{b}^{[1]}}&= \delta^{[1]} \cdot \frac{{\partial \mathbf{z}^{[1]}}^T}{\partial \mathbf{b}^{[1]}} = \\
+        \frac{\partial E}{\partial \mathbf{b}^{[1]}}&= \delta^{[1]} \cdot \frac{{\partial \mathbf{z}^{[1]}}^T}{\partial \mathbf{b}^{[1]}} = \delta^{[1]}\\
         \\
         \mathbf{b}^{[1]} &= \mathbf{b}^{[1]} - \eta \cdot \frac{\partial E}{\partial \mathbf{b}^{[1]}} = \begin{pmatrix}
             0.1\\
             0\\
             0.1
         \end{pmatrix} - 0.1 \cdot \begin{pmatrix}
-            
+            0.0054 \\
+            -0.0048 \\
+            0.0528
         \end{pmatrix} = \begin{pmatrix}
             0.1\\
             0\\
             0.1
+        \end{pmatrix} - \begin{pmatrix}
+            0.00054\\
+            -0.00048\\
+            0.00528
+        \end{pmatrix} = \begin{pmatrix}
+            0.09946\\
+            0.00048\\
+            0.09472
         \end{pmatrix}
     \end{aligned}
 \end{equation*}
@@ -464,45 +621,70 @@ Finally, we can calculate the gradients for the weights and biases:
         \\
         \frac{\partial E}{\partial \mathbf{W}^{[2]}} &= \delta^{[2]} \cdot \frac{\partial \mathbf{z}^{[2]}}{\partial \mathbf{W}^{[2]}} = \delta^{[2]} \cdot \left(\mathbf{z}^{[1]}\right)^T \\
         &= \begin{pmatrix}
-            0.106\\
-            0.071\\
+            0.114 \\
+            -0.148 \\
             0.052
         \end{pmatrix} \cdot \begin{pmatrix}
             0.3 & 0.3 & 0.4
         \end{pmatrix} = \begin{pmatrix}
-            0.032 & 0.032 & 0.042\\
-            0.021 & 0.021 & 0.028\\
-            0.016 & 0.016 & 0.021
-        \end{pmatrix}\\
-        \\
+            0.0342 & 0.0342 & 0.0456\\
+            -0.0444 & -0.0444 & -0.0592\\
+            0.0156 & 0.0156 & 0.0208
+        \end{pmatrix}
+    \end{aligned}
+\end{equation*}
+
+
+\begin{equation*}
+    \begin{aligned}
         \mathbf{W}^{[2]} &= \mathbf{W}^{[2]} - \eta \cdot \frac{\partial E}{\partial \mathbf{W}^{[2]}} = \begin{pmatrix}
             1 & 2 & 2\\
             1 & 2 & 1\\
             1 & 1 & 1
         \end{pmatrix} - 0.1 \cdot \begin{pmatrix}
-            0.032 & 0.032 & 0.042\\
-            0.021 & 0.021 & 0.028\\
-            0.016 & 0.016 & 0.021
+            0.0342 & 0.0342 & 0.0456\\
+            -0.0444 & -0.0444 & -0.0592\\
+            0.0156 & 0.0156 & 0.0208
         \end{pmatrix} \\ &= \begin{pmatrix}
-            0.997 & 1.997 & 1.997\\
-            0.998 & 1.998 & 0.998\\
-            0.998 & 0.998 & 0.998
+            1 & 2 & 2\\
+            1 & 2 & 1\\
+            1 & 1 & 1
+        \end{pmatrix} - \begin{pmatrix}
+            0.00342 & 0.00342 & 0.00456\\
+            -0.00444 & -0.00444 & -0.00592\\
+            0.00156 & 0.00156 & 0.00208
+        \end{pmatrix} = \begin{pmatrix}
+            0.99658 & 1.99658 & 1.99544\\
+            1.00444 & 2.00444 & 1.00592\\
+            0.99844 & 0.99844 & 0.99792
         \end{pmatrix}\\
-        \\
-        \frac{\partial E}{\partial \mathbf{b}^{[2]}}&= \delta^{[2]} \cdot \frac{{\partial \mathbf{z}^{[2]}}^T}{\partial \mathbf{b}^{[2]}} = \\
+    \end{aligned}
+\end{equation*}
+
+\begin{equation*}
+    \begin{aligned}
+        \frac{\partial E}{\partial \mathbf{b}^{[2]}}&= \delta^{[2]} \cdot \frac{{\partial \mathbf{z}^{[2]}}^T}{\partial \mathbf{b}^{[2]}} = \delta^{[2]}\\
         \\
         \mathbf{b}^{[2]} &= \mathbf{b}^{[2]} - \eta \cdot \frac{\partial E}{\partial \mathbf{b}^{[2]}} = \begin{pmatrix}
-            0.1\\
-            0\\
-            0.1
+            1\\
+            1\\
+            1
         \end{pmatrix} - 0.1 \cdot \begin{pmatrix}
-            0\\
-            0\\
-            0
+            0.114\\
+            -0.148\\
+            0.052
         \end{pmatrix} = \begin{pmatrix}
-            0.1\\
-            0\\
-            0.1
+            1\\
+            1\\
+            1
+        \end{pmatrix} - \begin{pmatrix}
+            0.0114\\
+            -0.0148\\
+            0.0052
+        \end{pmatrix} = \begin{pmatrix}
+            0.9886\\
+            1.0148\\
+            0.9948
         \end{pmatrix}
     \end{aligned}
 \end{equation*}
@@ -517,22 +699,77 @@ biomedical measurements.
 To answer question (5), average the performance of the models over 10 separate runs. In each
 run, use a different $\mathbf{80-20}$ train test split by setting a \texttt{random\_state = i}, with $\mathbf{i=1...10}$.}
 
-
 \item \textbf{Train a Linear Regression model, an MLP Regressor with 2 hidden layers of 10
 neurons each and no activation functions, and another MLP Regressor with 2 hidden
 layers of 10 neurons each using ReLU activation functions. (Use \texttt{random\_state=0} on the
 MLPs, regardless of the run). Plot a boxplot of the test MAE of each model.}
 
+\vspace{20pt}
+\lstinputlisting[language=Python]{./Part II/5.py}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=10cm]{./Part II/5.png}
+    \caption{Boxplot of the test MAE for each model}
+\end{figure}
+
 \item \textbf{Compare a Linear Regression with a MLP with no activations, and explain the impact
 and the importance of using activation functions in a MLP. Support your reasoning with the
 results from the boxplots.}
 
+\vspace{10pt}
+As we can see in the previous plot, the MLP without activation functions behaves similarly to Linear Regression, while the MLP with ReLU activation function performs better than the other two models.
+Linear Regression and MLP without activation functions have a high MAE, centered around 8.0. On the other hand, the MLP with ReLU activation function has a lower MAE, centered around 6.0 and this shows the power of activation functions.
+Activation functions enable the MLP to learn from non-linear relationships in the data. Without them, each layer is just performing a linear operation, which severely limits the network's ability to generalize and fit real-world data, especially when the underlying relationships are complex or non-linear.
+
+\vspace{10pt}
 \item \textbf{Using a $\mathbf{80-20}$ train-test split with \texttt{random\_state=0}, use a Grid Search to tune the
 hyperparameters of an MLP regressor with two hidden layers (size 10 each). The
 parameters to search over are: (i) L2 penalty, with the values $\mathbf{\{0.0001, 0.001, 0.01\}}$; (ii)
 learning rate, with the values $\mathbf{\{0.001, 0.01, 0.1\}}$; and (iii) batch size, with the values
 $\mathbf{\{32, 64, 128\}}$. Plot the test MAE for each combination of hyperparameters, report the
 best combination, and discuss the trade-oﬀs between the combinations.}
+
+\vspace{20pt}
+\lstinputlisting[language=Python]{./Part II/7.py}
+
+\begin{figure}[h]
+    \centering
+    % First row with two images side by side
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{./Part II/7_1.png}
+        \caption{MAE plot for L2 penalty = 0.0001}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{./Part II/7_2.png}
+        \caption{MAE plot for L2 penalty = 0.001}
+    \end{subfigure}
+
+    % Space between rows
+    \vskip\baselineskip
+
+    % Second row with one image centered
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{./Part II/7_3.png}
+        \caption{MAE plot for L2 penalty = 0.01}
+    \end{subfigure}
+
+    \caption{MAE plot for each combination of hyperparameters}
+\end{figure}
+
+\vspace{10pt}
+When analizing MAE values, the smaller the MAE the better the models performance. With that being said, the best combination for heatmap is:
+
+\begin{itemize}
+    \item Figure 4 (a): Learning Rate = 0.01 and Batch Size = 64
+    \item Figure 4 (b): Learning Rate = 0.01 and Batch Size = 64
+    \item Figure 4 (c): Learning Rate = 0.01 and Batch Size = 32
+\end{itemize}
+
 \end{enumerate}
 
 \end{document}
