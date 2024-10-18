@@ -116,7 +116,7 @@ $\mathbf{\phi(y_1,y_2) = y_1 \times y_2}$ that transforms the original space int
         W = (\Phi^T \Phi)^{-1} \Phi^T y_\text{num}
     \end{equation*}
 
-    where $\Phi$ is the parameterization matrix and $y_\text{num}$ is the output variable. 
+    where $\Phi$ is the design matrix and $y_\text{num}$ is the output variable. 
 
     \begin{equation*}
         \Phi = \begin{bmatrix}
@@ -160,7 +160,7 @@ $\mathbf{\phi(y_1,y_2) = y_1 \times y_2}$ that transforms the original space int
         W = (\Phi^T \Phi + \lambda I)^{-1} \Phi^T y_\text{num}
     \end{equation*}
     
-    where $\Phi$ is the parameterization matrix, $y_\text{num}$ is the output variable (which remain the same as in the previous exercise), and $\lambda$ is the penalty factor.
+    where $\Phi$ is the design matrix, $y_\text{num}$ is the output variable (which remain the same as in the previous exercise), and $\lambda$ is the penalty factor.
 
     \vspace{10pt}
     \lstinputlisting[language=Python]{./Part I/2.py}
@@ -176,10 +176,10 @@ $\mathbf{\phi(y_1,y_2) = y_1 \times y_2}$ that transforms the original space int
     \end{equation*}
 
     \vspace{10pt}
-    Comparing the obtained in the OLS and Ridge regression models, we can see that in the Ridge regression model $w_0$ is smaller and $w_1$ is larger than the corresponding weights in the OLS model.
+    Comparing the obtained weights in the OLS and Ridge regression models, we can see that in the Ridge regression model $w_0$ is smaller and $w_1$ is larger than the corresponding weights in the OLS model.
 
     \vspace{10pt}
-    To check the impact of the regularization term on the weights, we can calculate the corresponding normalized values:
+    To check the impact of the regularization on the weights, we can calculate the corresponding normalized values:
     
     \begin{equation*}
         \begin{aligned}
@@ -667,8 +667,8 @@ best combination, and discuss the trade-oﬀs between the combinations.}
     \caption{MAE plot for each combination of hyperparameters}
 \end{figure}
 
-\vspace{10pt}
-When analizing MAE values (graphics below), the smaller the MAE the better the models performance. With that being said, the best combination for each heatmap is:
+\vspace{20pt}
+When analizing MAE values, the smaller the MAE the better the models performance. With that being said, the best combination for each heatmap is:
 
 \begin{itemize}
     \item Learning Rate = 0.01 and Batch Size = 64 for L2 penalty = 0.0001
