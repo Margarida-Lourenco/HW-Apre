@@ -1,0 +1,28 @@
+# Ignore generated files from LaTeX builds
+*.aux
+*.log
+*.out
+*.toc
+*.nav
+*.snm
+*.vrb
+*.dvi
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.gz
+*.idx
+*.ilg
+*.ind
+*.lof
+*.lot
+*.run.xml
+
+# Ignore auxiliary files created by editors
+*.suo
+*.swp
+*.swn
+*.tmp
+*.bak
+*.~*

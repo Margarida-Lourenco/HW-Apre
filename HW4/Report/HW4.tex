@@ -1,0 +1,148 @@
+\documentclass[12pt]{article}
+\usepackage[paper=letterpaper,margin=2cm]{geometry}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{enumitem}
+\usepackage{titling}
+\usepackage{multirow}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage[colorlinks=true, linkcolor=red]{hyperref}
+\usepackage{subcaption} % For subfigures
+\usepackage{adjustbox}  % For centering the bottom image
+\usepackage{listings}
+\usepackage{xcolor} % For setting colors
+\usepackage{booktabs} % For better tables
+\usepackage{threeparttable} % For table notes
+
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0.0, 0.514, 0.325}      
+\definecolor{codegray}{rgb}{0.75, 0.75, 0.75}    
+\definecolor{codeblue}{rgb}{0.122, 0.467, 0.706}  
+\definecolor{extraLightGray}{rgb}{0.98, 0.98, 0.98}
+\definecolor{codepink}{rgb}{0.894, 0.0, 0.443}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{extraLightGray},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{codeblue},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepink},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+}
+\lstset{style=mystyle}
+
+\setlength{\droptitle}{-6em}
+
+\begin{document}
+
+\begin{center}
+Aprendizagem 2023\\
+Homework I --- Group 003\\
+(ist1107028, ist1107137)\vskip 1cm
+\end{center}
+
+\large{\textbf{Part I}: Pen and paper}\normalsize
+
+\vspace{20pt}
+\textbf{Consider the bivariate observations}
+
+\begin{equation*}\{
+    x_1 = \begin{bmatrix}
+        1 \\
+        0
+    \end{bmatrix},
+    x_2 = \begin{bmatrix}
+        0 \\
+        2
+    \end{bmatrix},
+    x_3 = \begin{bmatrix}
+        3 \\
+        -1
+    \end{bmatrix}\}
+\end{equation*}
+
+\vspace{10pt}
+\textbf{and the multivariate Gaussian mixture given by}
+
+\[
+\mathbf{u}_1 = \begin{bmatrix} 2 \\ -1 \end{bmatrix}, \quad
+\mathbf{u}_2 = \begin{bmatrix} 1 \\ 1 \end{bmatrix}, \quad
+\Sigma_1 = \begin{bmatrix} 2 & 1 \\ 1 & 2 \end{bmatrix}, \quad
+\Sigma_2 = \begin{bmatrix} 2 & 0 \\ 0 & 2 \end{bmatrix}, \quad
+\pi_1 = 0.5, \quad \pi_2 = 0.5
+\]
+
+\vspace{10pt}
+\textbf{Answer the following questions by presenting all intermediary steps, and use 3 decimal places in
+each.}
+
+\begin{enumerate}
+    \item \textbf{Perform two epochs of the EM clustering algorithm and determine the new parameters.}
+    \item \textbf{Using the ﬁnal parameters computed in previous question:}
+    \begin{enumerate}[label=\alph*)]
+        \item \textbf{perform a hard assignment of observations to clusters under a MAP assumption.}
+        \item \textbf{compute the silhouette of the larger cluster (the one that has more observations
+        assigned to it) using the Euclidean distance.}
+    \end{enumerate}
+\end{enumerate}
+
+\vspace{20pt}
+\large{\textbf{Part II}: Programming}\normalsize
+
+\vspace{20pt}
+\textbf{In the next exercise you will use the \texttt{accounts.csv} dataset. This dataset contains account details
+of bank clients, and the target variable y is binary ('has the client subscribed a term deposit?').}
+
+\begin{enumerate}
+    \item \textbf{Select the first 8 features and remove duplicates and null values. Normalize the data
+    using \texttt{MinMaxScaler}. Using \texttt{sklearn}, apply \texttt{k-means clustering} (without targets) on the
+    normalized data with \( k = \{2,3,4,5,6,7,8\} \). Apply k-means randomly initialized, using \texttt{max\_iter = 500}
+    and \texttt{random\_state = 42}. Plot the different sum of squared errors (SSE) using the
+    \texttt{\_inertia} attribute of \texttt{k-means} according to the number of clusters.}
+    
+    \textbf{Hint:} You can use \texttt{get\_dummies()} to change the feature type from categorical to numerical
+    (e.g. \texttt{pd.get\_dummies(data, drop\_first=True)})
+
+    \item \textbf{According to the previous plot, how many underlying customer segments (clusters)
+    should there be ? Explain based on the trade off between the clusters and inertia.}
+
+    \item \textbf{Would k-modes be a better clustering approach ? Explain why based on the dataset
+    features.}
+
+    \item \textbf{Apply PCA to the data :}
+    
+    \begin{enumerate}[label=\alph*)]
+        \item \textbf{Use \texttt{StandardScaler} to scale the data before you apply \texttt{ﬁt\_transform}. How much
+        variability is explained by the top 2 components ?}
+        \item \textbf{Provide a scatterplot according to the ﬁrst 2 principal components and color the
+        points according to $k=3$ clusters. Can we clearly separate the clusters ? Justify.}
+    \end{enumerate}
+    
+    \item \textbf{Plot the cluster conditional features of the frequencies of `job" and `education"
+    according to k-means, with \texttt{multiple='dodge'}, \texttt{stat='density'}, \texttt{shrink=0.8},
+    \texttt{common\_norm=False}. Analyze the frequency plots using \texttt{sns.displot}, (see Data Exploration
+    notebook). Describe the main diﬀerences between the clusters in no more than half page.}
+
+
+
+
+
+
+
+
+\end{enumerate}
+\end{document}
