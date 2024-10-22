@@ -116,7 +116,7 @@ $\mathbf{\phi(y_1,y_2) = y_1 \times y_2}$ that transforms the original space int
         W = (\Phi^T \Phi)^{-1} \Phi^T y_\text{num}
     \end{equation*}
 
-    where $\Phi$ is the parameterization matrix and $y_\text{num}$ is the output variable. 
+    where $\Phi$ is the design matrix and $y_\text{num}$ is the output variable. 
 
     \begin{equation*}
         \Phi = \begin{bmatrix}
@@ -160,7 +160,7 @@ $\mathbf{\phi(y_1,y_2) = y_1 \times y_2}$ that transforms the original space int
         W = (\Phi^T \Phi + \lambda I)^{-1} \Phi^T y_\text{num}
     \end{equation*}
     
-    where $\Phi$ is the parameterization matrix, $y_\text{num}$ is the output variable (which remain the same as in the previous exercise), and $\lambda$ is the penalty factor.
+    where $\Phi$ is the design matrix, $y_\text{num}$ is the output variable (which remain the same as in the previous exercise), and $\lambda$ is the penalty factor.
 
     \vspace{10pt}
     \lstinputlisting[language=Python]{./Part I/2.py}
@@ -175,34 +175,21 @@ $\mathbf{\phi(y_1,y_2) = y_1 \times y_2}$ that transforms the original space int
         y_\text{num} = 1.81809 + 0.32376 \cdot \phi(y_1, y_2)
     \end{equation*}
 
-    In order to compare the weights obtained in the OLS and Ridge regression models, we must first normalize the data:
+    \vspace{10pt}
+    Comparing the obtained weights in the OLS and Ridge regression models, we can see that in the Ridge regression model $w_0$ is smaller and $w_1$ is larger than the corresponding weights in the OLS model.
 
     \vspace{10pt}
-    normalization for the OLS model:
+    To check the impact of the regularization on the weights, we can calculate the corresponding normalized values:
+    
     \begin{equation*}
         \begin{aligned}
-            {w_0}_\text{normalized} &= \frac{3.31593}{3.31593 + 1.81809} = 0.64587 \\
-            {w_1}_\text{normalized} &= \frac{0.11372}{0.11372 + 0.32376} = 0.25994
+            {w_0}_\text{normalized} &= \sqrt{3.31593^2 + 1.81809^2} = 3.78165\\
+            {w_1}_\text{normalized} &= \sqrt{0.11372^2 + 0.32376^2} = 0.34315
         \end{aligned}
     \end{equation*}
 
     \vspace{10pt}
-    Normalization for the Ridge Regression model:
-    \begin{equation*}
-        \begin{aligned}
-            {w_0}_\text{normalized} &= \frac{1.81809}{3.31593 + 1.81809} = 0.35413 \\
-            {w_1}_\text{normalized} &= \frac{0.32376}{0.11372 + 0.32376} = 0.74006
-        \end{aligned}
-    \end{equation*}
-
-    \vspace{10pt}
-    Comparing the normalized weights obtained in the OLS and Ridge regression models, we can see that in the Ridge regression model $w_0$ is smaller and $w_1$ is larger than the corresponding OLS model weights.
-
-    The regularization term in the Ridge regression model penalizes large weights, but it allows for the weights to increase or decrease relative to one another based on the data. In this case, the regularization reduces the bias term $w_0$, as the model learns to rely more on the feature $w_1$
-    to explain the variance in the target variable. This reduces the need for a large bias term, helping to prevent overfitting and stabilizing the model's predictions.
-
-    These results suggest that the feature has a strong positive correlation with the target variable. As a result, $w_1$ increases to better capture this relationship, allowing $w_0$
-    to decrease.
+    The normalized weights show that the Ridge regression model has a smaller overall weight magnitude compared to the OLS model. This is due to the regularization term in the Ridge regression model, which penalizes large weights and helps to prevent overfitting by reducing the complexity of the model. The regularization term shrinks the weights towards zero, which can help to improve the generalization of the model to new data.
 
     \vspace{10pt}
     \item \textbf{Given three new test observations and their corresponding output\\}
@@ -215,7 +202,7 @@ $\mathbf{\phi(y_1,y_2) = y_1 \times y_2}$ that transforms the original space int
         \text{RMSE} = \sqrt{\frac{1}{N} \sum_{i=1}^{N} (z_{i} - \tilde{z}_{i})^2}
     \end{equation*}
 
-    where $\tilde{z}_{i}$ is the predicted value, $z_{i}$ is the true value and $N$ is the number of observations.
+    where $\tilde{z}_{i}$ is the predicted value, $z_{i}$ is the real value and $N$ is the number of observations.
 
     \vspace{10pt}
     \underline{OLS model:}
@@ -373,7 +360,7 @@ using the training observation $x_1$.}
 We may also draw the corresponding scheme:
 \begin{figure}[H]
     \centering
-    \includegraphics[width=12cm]{./Part I/Scheme.png}
+    \includegraphics[width=10cm]{./Part I/Scheme.png}
     \caption{MLP Scheme}
 \end{figure}
 
@@ -394,6 +381,7 @@ $f$ is the activation function for the output layer, provided in the statement.
 \vspace{10pt}
 In this notation, the value $p$ is the index of the MLP layer.
 
+\vspace{20pt}
 We may now calculate the values of each node in the network for the training observation:
 
 \vspace{10pt}
@@ -454,7 +442,7 @@ We may now calculate the values of each node in the network for the training obs
 \vspace{10pt}
 Now, we can calculate the \textbf{backward propagation} to update the weights and biases.
 
-\newpage
+\vspace{10pt}
 Let's star by computing the derivatives for the z[i]:
     
     \begin{equation*}
@@ -464,7 +452,7 @@ Let's star by computing the derivatives for the z[i]:
         \end{aligned}
     \end{equation*}
 
-\vspace{10pt}
+\newpage
 Now we calculate the deltas (for the output layer and the hidden layer):
 
 \begin{equation*}
@@ -508,7 +496,7 @@ Now we calculate the deltas (for the output layer and the hidden layer):
     \end{aligned}
 \end{equation*}
 
-\vspace{10pt}
+\vspace{20pt}
 Finally, we can \textbf{update the weights and biases} with the gradient descent:
 
 \begin{equation*}
@@ -616,6 +604,7 @@ biomedical measurements.
 To answer question (5), average the performance of the models over 10 separate runs. In each
 run, use a different $\mathbf{80-20}$ train test split by setting a \texttt{random\_state = i}, with $\mathbf{i=1...10}$.}
 
+\vspace{20pt}
 \item \textbf{Train a Linear Regression model, an MLP Regressor with 2 hidden layers of 10
 neurons each and no activation functions, and another MLP Regressor with 2 hidden
 layers of 10 neurons each using ReLU activation functions. (Use \texttt{random\_state=0} on the
@@ -653,13 +642,13 @@ best combination, and discuss the trade-oﬀs between the combinations.}
 \begin{figure}[h]
     \centering
     % First row with two images side by side
-    \begin{subfigure}{0.45\textwidth}
+    \begin{subfigure}{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{./Part II/7_1.png}
         \caption{MAE plot for L2 penalty = 0.0001}
     \end{subfigure}
     \hfill
-    \begin{subfigure}{0.45\textwidth}
+    \begin{subfigure}{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{./Part II/7_2.png}
         \caption{MAE plot for L2 penalty = 0.001}
@@ -669,7 +658,7 @@ best combination, and discuss the trade-oﬀs between the combinations.}
     \vskip\baselineskip
 
     % Second row with one image centered
-    \begin{subfigure}{0.45\textwidth}
+    \begin{subfigure}{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{./Part II/7_3.png}
         \caption{MAE plot for L2 penalty = 0.01}
@@ -678,8 +667,8 @@ best combination, and discuss the trade-oﬀs between the combinations.}
     \caption{MAE plot for each combination of hyperparameters}
 \end{figure}
 
-\vspace{10pt}
-When analizing MAE values (graphics below), the smaller the MAE the better the models performance. With that being said, the best combination for heatmap is:
+\vspace{20pt}
+When analizing MAE values, the smaller the MAE the better the models performance. With that being said, the best combination for each heatmap is:
 
 \begin{itemize}
     \item Learning Rate = 0.01 and Batch Size = 64 for L2 penalty = 0.0001
