@@ -15,6 +15,7 @@
 \usepackage{xcolor} % For setting colors
 \usepackage{booktabs} % For better tables
 \usepackage{threeparttable} % For table notes
+\usepackage{pifont}    % for symbols
 
 \usepackage{listings}
 \usepackage{xcolor}
@@ -81,7 +82,7 @@ Homework I --- Group 003\\
 \[
 \mathbf{u}_1 = \begin{bmatrix} 2 \\ -1 \end{bmatrix}, \quad
 \mathbf{u}_2 = \begin{bmatrix} 1 \\ 1 \end{bmatrix}, \quad
-\Sigma_1 = \begin{bmatrix} 2 & 1 \\ 1 & 2 \end{bmatrix}, \quad
+\Sigma_1 = \begin{bmatrix} 4 & 1 \\ 1 & 4 \end{bmatrix}, \quad
 \Sigma_2 = \begin{bmatrix} 2 & 0 \\ 0 & 2 \end{bmatrix}, \quad
 \pi_1 = 0.5, \quad \pi_2 = 0.5
 \]
@@ -92,6 +93,430 @@ each.}
 
 \begin{enumerate}
     \item \textbf{Perform two epochs of the EM clustering algorithm and determine the new parameters.}
+    
+    \vspace{10pt}
+    \colorbox{codeblue}{\textcolor{white}{FIRST EM EPOCH}}
+
+    \begin{enumerate}[label=\arabic*)]
+        \item Expectation: \textbf{\textcolor{codeblue}{E-STEP}}
+        
+        \vspace{10pt}
+        \fbox{$x_1$}
+
+        \vspace{10pt}
+        \begin{itemize}[label=\ding{222}]
+            \item Cluster $c=1$:
+            \begin{equation*}
+                \begin{aligned}
+                    &\text{prior: } P(c=1) = \pi_1 = \mathbf{0.5} \\
+                    \\
+                    &\text{likelihood: } p(x_1|c=1) = \mathcal{N}(x_1| \mu_1, \sigma_1) \\
+                    &= \frac{1}{(2 \cdot \pi)} \cdot \frac{1}{det(\Sigma_1)} \cdot \exp \left( -\frac{1}{2} \cdot (x_1 - \mu_1)^{T} \Sigma_1^{-1} \cdot (x_1 - \mu_1) \right)\\
+                    &= \frac{1}{(2 \cdot \pi)} \cdot \frac{1}{15} \cdot \exp \left( -\frac{1}{2} \cdot \left(\begin{pmatrix}
+                    1\\
+                    0
+                    \end{pmatrix} - \begin{pmatrix}
+                    2\\
+                    -1
+                    \end{pmatrix}\right)^{T} \cdot \begin{pmatrix}
+                    4 & 1\\
+                    1 & 4
+                    \end{pmatrix}^{-1} \cdot \left(\begin{pmatrix}
+                    1\\
+                    0
+                    \end{pmatrix} - \begin{pmatrix}
+                    2\\
+                    -1
+                    \end{pmatrix}\right) \right)\\
+                    &= \frac{1}{(2 \cdot \pi)} \cdot \frac{1}{15} \cdot \exp \left( -\frac{1}{2} \cdot \begin{pmatrix}
+                    -1 & 1\\
+                    \end{pmatrix} \cdot \begin{pmatrix}
+                    4 & 1\\
+                    1 & 4
+                    \end{pmatrix} \cdot \begin{pmatrix}
+                    -1\\
+                    1
+                    \end{pmatrix} \right) = \frac{e^{-3}}{2\pi \cdot 15} = \mathbf{0.029}\\
+                    \\
+                    &\text{joint probability: } P(c=1, x_1) =  P(c=1)p(x_1|c=1) = \pi_1 \cdot \mathcal{N}(x_1| \mu_1, \sigma_1) = \mathbf{0.015}\\
+                    \\
+                    &\text{normalized posterior: } P(c=1|x_1) = \frac{0.015}{0.015+0.007} = \mathbf{0.681}
+                \end{aligned}
+            \end{equation*}
+
+            \item Cluster $c=2$:
+            \begin{equation*}
+                \begin{aligned}
+                    &\text{prior: } P(c=2) = \pi_2 = \mathbf{0.5} \\
+                    \\
+                    &\text{likelihood: } p(x_1|c=2) = \mathcal{N}(x_1| \mu_2, \sigma_2) \\
+                    &= \frac{1}{(2 \cdot \pi)} \cdot \frac{1}{det(\Sigma_2)} \cdot \exp \left( -\frac{1}{2} \cdot (x_1 - \mu_2)^{T} \Sigma_2^{-1} \cdot (x_1 - \mu_2) \right)\\
+                    &= \frac{1}{(2 \cdot \pi)} \cdot \frac{1}{4} \cdot \exp \left( -\frac{1}{2} \cdot \left(\begin{pmatrix}
+                    1\\
+                    0
+                    \end{pmatrix} - \begin{pmatrix}
+                    1\\
+                    1
+                    \end{pmatrix}\right)^{T} \cdot \begin{pmatrix}
+                    2 & 0\\
+                    0 & 2
+                    \end{pmatrix}^{-1} \cdot \left(\begin{pmatrix}
+                    1\\
+                    0
+                    \end{pmatrix} - \begin{pmatrix}
+                    1\\
+                    1
+                    \end{pmatrix}\right) \right)\\
+                    &= \frac{1}{(2 \cdot \pi)} \cdot \frac{1}{4} \cdot \exp \left( -\frac{1}{2} \cdot \begin{pmatrix}
+                    0 & -1\\
+                    \end{pmatrix} \cdot \begin{pmatrix}
+                    2 & 0\\
+                    0 & 2
+                    \end{pmatrix} \cdot \begin{pmatrix}
+                    0\\
+                    -1
+                    \end{pmatrix} \right) = \frac{e^{-1}}{2 \pi \cdot 4} = \mathbf{0.015}\\
+                    \\
+                    &\text{joint probability: } P(c=2, x_1) =  P(c=2)p(x_1|c=2) = \pi_2 \cdot \mathcal{N}(x_1| \mu_2, \sigma_2) = \mathbf{0.007}\\
+                    \\
+                    &\text{normalized posterior: } P(c=2|x_1) = \frac{0.007}{0.007+0.015} = \mathbf{0.318}
+                \end{aligned}
+            \end{equation*}
+        \end{itemize}
+        
+        \vspace{10pt}
+        \fbox{$x_2$}
+
+        \vspace{10pt}
+        \begin{itemize}[label=\ding{222}]
+            \item Cluster $c=1$:
+                
+            \begin{equation*}
+                \begin{aligned}
+                    &\text{prior: } P(c=1) = \pi_1 = \mathbf{0.5} \\
+                    &\text{likelihood: } p(x_2|c=1) = \mathcal{N}(x_2| \mu_1, \sigma_1) \\
+                    &= \frac{1}{(2 \cdot \pi)} \cdot \frac{1}{det(\Sigma_1)} \cdot \exp \left( -\frac{1}{2} \cdot (x_2 - \mu_1)^{T} \Sigma_1^{-1} \cdot (x_2 - \mu_1) \right)\\
+                    &= \frac{1}{(2 \cdot \pi)} \cdot \frac{1}{15} \cdot \exp \left( -\frac{1}{2} \cdot \left(\begin{pmatrix}
+                    0\\
+                    2
+                    \end{pmatrix} - \begin{pmatrix}
+                    2\\
+                    -1
+                    \end{pmatrix}\right)^{T} \cdot \begin{pmatrix}
+                    4 & 1\\
+                    1 & 4
+                    \end{pmatrix}^{-1} \cdot \left(\begin{pmatrix}
+                    0\\
+                    2
+                    \end{pmatrix} - \begin{pmatrix}
+                    2\\
+                    -1
+                    \end{pmatrix}\right) \right)\\
+                    &= \frac{1}{(2 \cdot \pi)} \cdot \frac{1}{15} \cdot \exp \left( -\frac{1}{2} \cdot \begin{pmatrix}
+                    -2 & 3\\
+                    \end{pmatrix} \cdot \begin{pmatrix}
+                    4 & 1\\
+                    1 & 4
+                    \end{pmatrix} \cdot \begin{pmatrix}
+                    -2\\
+                    3
+                    \end{pmatrix} \right) = \frac{e^{-20}}{2 \pi \cdot 15} = \mathbf{0}\\ 
+                    \\    
+                    &\text{joint probability: } P(c=1, x_2) =  P(c=1)p(x_2|c=1) = \pi_1 \cdot \mathcal{N}(x_2| \mu_1, \sigma_1) = \mathbf{0}\\
+                    \\
+                    &\text{normalized posterior: }P(c=1|x_2) = \frac{0}{0+0.003} = \mathbf{0}
+                \end{aligned}
+            \end{equation*}
+
+            \newpage
+            \item Cluster $c=2$:
+            
+            \begin{equation*}
+                \begin{aligned}
+                    &\text{prior: } P(c=2) = \pi_2 = \mathbf{0.5} \\
+                    &\text{likelihood: } p(x_2|c=2) = \mathcal{N}(x_2| \mu_2, \sigma_2) \\
+                    &= \frac{1}{(2 \cdot \pi)} \cdot \frac{1}{det(\Sigma_2)} \cdot \exp \left( -\frac{1}{2} \cdot (x_2 - \mu_2)^{T} \Sigma_2^{-1} \cdot (x_2 - \mu_2) \right)\\
+                    &= \frac{1}{(2 \cdot \pi)} \cdot \frac{1}{4} \cdot \exp \left( -\frac{1}{2} \cdot \left(\begin{pmatrix}
+                    0\\
+                    2
+                    \end{pmatrix} - \begin{pmatrix}
+                    1\\
+                    1
+                    \end{pmatrix}\right)^{T} \cdot \begin{pmatrix}
+                    2 & 0\\
+                    0 & 2
+                    \end{pmatrix}^{-1} \cdot \left(\begin{pmatrix}
+                    0\\
+                    2
+                    \end{pmatrix} - \begin{pmatrix}
+                    1\\
+                    1
+                    \end{pmatrix}\right) \right)\\
+                    &= \frac{1}{(2 \cdot \pi)} \cdot \frac{1}{4} \cdot \exp \left( -\frac{1}{2} \cdot \begin{pmatrix}
+                    -1 & 1\\
+                    \end{pmatrix} \cdot \begin{pmatrix}
+                    2 & 0\\
+                    0 & 2
+                    \end{pmatrix} \cdot \begin{pmatrix}
+                    -1\\
+                    1
+                    \end{pmatrix} \right) = \frac{e^{-2}}{2 \pi \cdot 4} = \mathbf{0.005}\\
+                    \\
+                    &\text{joint probability: } P(c=2, x_2) =  P(c=2)p(x_2|c=2) = \pi_2 \cdot \mathcal{N}(x_2| \mu_2, \sigma_2) = \mathbf{0.003}\\
+                    \\
+                    &\text{normalized posterior: } P(c=2|x_2) = \frac{0.003}{0 + 0.003} = \mathbf{1}
+                \end{aligned}
+            \end{equation*}
+        \end{itemize}
+
+        \vspace{10pt}
+        \fbox{$x_3$}
+
+        \vspace{10pt}
+        \begin{itemize}[label=\ding{222}]
+            \item Cluster $c=1$:
+                
+            \begin{equation*}
+                \begin{aligned}
+                    &\text{prior: } P(c=1) = \pi_1 = \mathbf{0.5} \\
+                    &\text{likelihood: } p(x_3|c=1) = \mathcal{N}(x_3| \mu_1, \sigma_1) \\
+                    &= \frac{1}{(2 \cdot \pi)} \cdot \frac{1}{det(\Sigma_1)} \cdot \exp \left( -\frac{1}{2} \cdot (x_3 - \mu_1)^{T} \Sigma_1^{-1} \cdot (x_3 - \mu_1) \right)\\
+                    &= \frac{1}{(2 \cdot \pi)} \cdot \frac{1}{15} \cdot \exp \left( -\frac{1}{2} \cdot \left(\begin{pmatrix}
+                    3\\
+                    -1
+                    \end{pmatrix} - \begin{pmatrix}
+                    2\\
+                    -1
+                    \end{pmatrix}\right)^{T} \cdot \begin{pmatrix}
+                    4 & 1\\
+                    1 & 4
+                    \end{pmatrix}^{-1} \cdot \left(\begin{pmatrix}
+                    3\\
+                    -1
+                    \end{pmatrix} - \begin{pmatrix}
+                    2\\
+                    -1
+                    \end{pmatrix}\right) \right)\\
+                    &= \frac{1}{(2 \cdot \pi)} \cdot \frac{1}{15} \cdot \exp \left( -\frac{1}{2} \cdot \begin{pmatrix}
+                    1 & 0\\
+                    \end{pmatrix} \cdot \begin{pmatrix}
+                    4 & 1\\
+                    1 & 4
+                    \end{pmatrix} \cdot \begin{pmatrix}
+                    1\\
+                    0
+                    \end{pmatrix} \right) = \frac{e^{-2}}{2 \pi \cdot 15} = \mathbf{0.001}\\
+                    \\
+                    &\text{joint probability: } P(c=1, x_3) =  P(c=1)p(x_3|c=1) = \pi_1 \cdot \mathcal{N}(x_3| \mu_1, \sigma_1) = \mathbf{0.001}\\
+                    \\
+                    &\text{normalized posterior: } P(c=1|x_3)= \frac{0.001}{0+0.001} = \mathbf{1}
+                \end{aligned}
+            \end{equation*}
+
+            \newpage
+            \item Cluster $c=2$:
+            
+            \begin{equation*}
+                \begin{aligned}
+                    &\text{prior: } P(c=2) = \pi_2 = \mathbf{0.5} \\
+                    &\text{likelihood: } p(x_3|c=2) = \mathcal{N}(x_3| \mu_2, \sigma_2) \\
+                    &= \frac{1}{(2 \cdot \pi)} \cdot \frac{1}{det(\Sigma_2)} \cdot \exp \left( -\frac{1}{2} \cdot (x_3 - \mu_2)^{T} \Sigma_2^{-1} \cdot (x_3 - \mu_2) \right)\\
+                    &= \frac{1}{(2 \cdot \pi)} \cdot \frac{1}{4} \cdot \exp \left( -\frac{1}{2} \cdot \left(\begin{pmatrix}
+                    3\\
+                    -1
+                    \end{pmatrix} - \begin{pmatrix}
+                    1\\
+                    1
+                    \end{pmatrix}\right)^{T} \cdot \begin{pmatrix}
+                    2 & 0\\
+                    0 & 2
+                    \end{pmatrix}^{-1} \cdot \left(\begin{pmatrix}
+                    3\\
+                    -1
+                    \end{pmatrix} - \begin{pmatrix}
+                    1\\
+                    1
+                    \end{pmatrix}\right) \right)\\
+                    &= \frac{1}{(2 \cdot \pi)} \cdot \frac{1}{4} \cdot \exp \left( -\frac{1}{2} \cdot \begin{pmatrix}
+                    2 & -2\\
+                    \end{pmatrix} \cdot \begin{pmatrix}
+                    2 & 0\\
+                    0 & 2
+                    \end{pmatrix} \cdot \begin{pmatrix}
+                    2\\
+                    -2
+                    \end{pmatrix} \right) = \frac{e^{-8}}{2 \pi \cdot 4} = \mathbf{0}\\
+                    \\
+                    &\text{joint probability: } P(c=1, x_3) =  P(c=1)p(x_3|c=1) = \pi_1 \cdot \mathcal{N}(x_3| \mu_1, \sigma_1) = \mathbf{0}\\
+                    \\
+                    &\text{normalized posterior: } P(c=2|x_3) = \frac{0}{0+0.001} = \mathbf{0}
+                \end{aligned}
+            \end{equation*}
+        \end{itemize}
+
+
+        \begin{table}[H]
+            \begin{center}
+                \begin{threeparttable}
+                \begin{tabular}{c|c|c}
+                    Observations & $c=1$ & $c=2$ \\
+                    \hline
+                    $x_1$ & $0.681$ & $0.318$\\
+                    $x_2$ & $0$ & $1$\\
+                    $x_3$ & $1$ & $0$\\
+                \end{tabular}
+                \caption{Normalized posteriors}
+                \end{threeparttable}
+            \end{center}
+        \end{table}
+
+        \vspace{10pt}
+        \item Maximization: \textbf{\textcolor{codeblue}{M-STEP}}
+        
+        \vspace{10pt}
+        For the recalculation we will use the following formulas (n represents the cluster):
+
+        \vspace{10pt}
+        For the means:
+        \begin{equation}\label{means}
+            \mu_\text{n} = \frac{P(c=n|x_1) \cdot x_1 + P(c=n|x_2) \cdot x_2 + P(c=n|x_3) \cdot x_3}{P(c=n|x_1) + P(c=n|x_2) + P(c=n|x_3)}
+        \end{equation}
+
+        \vspace{10pt}
+        For the covariance matrices:
+
+        \begin{equation}\label{covariance_matrix}
+            \Sigma_n = \begin{pmatrix}
+                \Sigma_{11} & \Sigma_{21} \\
+                \Sigma_{12} & \Sigma_{22} \\
+            \end{pmatrix}
+        \end{equation}
+        
+        Where
+        \begin{equation*}
+            \resizebox{0.88\hsize}{!}{$
+            \Sigma_{ij} = \frac{
+              P(c=n|x_1)\left(\left(x_{1i} - \mu_{1i}\right) \left(x_{1j}- \mu_{1j}\right)\right) 
+            + P(c=n|x_2)\left(\left(x_{2i} - \mu_{2i}\right) \left(x_{2j}- \mu_{2j}\right)\right) 
+            + P(c=n|x_3)\left(\left(x_{3i} - \mu_{3i}\right) \left(x_{3j}- \mu_{3j}\right)\right)
+            }{P(c=n|x_1) + P(c=n|x_2) + P(c=n|x_3)}
+            $}
+        \end{equation*}
+        
+        \newpage
+        \begin{itemize}[label=\ding{222}]
+            \item Cluster $c=1$:
+        \begin{equation*}
+            \footnotesize
+            \mu_1 = \frac{0.681 \cdot x_1 + 0 \cdot x_2 + 1 \cdot x_3}{0.681+0+1} = \frac{0.681 \cdot \begin{pmatrix}
+            1\\
+            0
+            \end{pmatrix}+ 0 \cdot \begin{pmatrix}
+            0\\
+            2
+            \end{pmatrix} + 1 \cdot \begin{pmatrix}
+            3\\
+            -1
+            \end{pmatrix}}{1.681} = \begin{pmatrix}
+            2.190\\
+            -0.595
+            \end{pmatrix}\\
+        \end{equation*}
+
+        \begin{equation*}
+            \Sigma_1 = \begin{pmatrix}
+                \Sigma_{11} & \Sigma_{21} \\
+                \Sigma_{12} & \Sigma_{22}
+            \end{pmatrix} = \begin{pmatrix}
+                0.964 & -0.482 \\
+                -0.482 & 0.241
+            \end{pmatrix}
+        \end{equation*}
+
+        \begin{equation*}
+            \fontsize{9.5pt}{10pt}\selectfont
+            \begin{aligned}
+                \Sigma_{11} &= \frac{0.681 \cdot \left((x_{11}-\mu_{11}) \cdot (x_{11} - \mu_{11})\right)+ 0 \cdot \left((x_{21}-\mu_{11}) \cdot (x_{21} - \mu_{11})\right)+ 1 \cdot \left((x_{31}-\mu_{11}) \cdot (x_{31} - \mu_{11})\right)}{1.681}\\
+                &=\frac{0.681 \cdot \left((1-2.190) \cdot (1 - 2.190)\right) + 1 \cdot \left((3-2.190) \cdot (3 - 2.190)\right)}{1.681} = \frac{0.964 + 0.656}{1.681} = 0.964\\
+                \\
+                \Sigma_{21} &= \frac{0.681 \cdot \left((x_{12}-\mu_{12}) \cdot (x_{11} - \mu_{11})\right)+ 0 \cdot \left((x_{22}-\mu_{12}) \cdot (x_{21} - \mu_{11})\right)+ 1 \cdot \left((x_{32}-\mu_{12}) \cdot (x_{31} - \mu_{11})\right)}{1.681}\\
+                &=\frac{0.681 \cdot \left((0-(-0.595)) \cdot (1 - 2.190)\right) + 1 \cdot \left((-1-(-0.595)) \cdot (3 - 2.190)\right)}{1.681} = \frac{-0.482 + -0.328}{1.681} \\
+                &= -0.482\\
+                \\
+                \Sigma_{12} &= \Sigma_{21} = -0.482\\
+                \\
+                \Sigma_{22} &= \frac{0.681 \cdot \left((x_{12}-\mu_{12}) \cdot (x_{12} - \mu_{12})\right)+ 0 \cdot \left((x_{22}-\mu_{12}) \cdot (x_{22} - \mu_{12})\right)+ 1 \cdot \left((x_{32}-\mu_{12}) \cdot (x_{32} - \mu_{12})\right)}{1.681}\\
+                &=\frac{0.681 \cdot \left((0-(-0.595)) \cdot (0-(-0.595))\right) + 1 \cdot \left((-1-(-0.595)) \cdot (-1-(-0.595))\right)}{1.681} = \frac{0.241 + 0.164}{1.681}\\
+                &= 0.241\\
+            \end{aligned}
+        \end{equation*}
+
+    \vspace{20pt}
+    \item{cluster $c=2$}
+    \begin{equation*}
+        \footnotesize
+        \mu_2 = \frac{0.318 \cdot x_1 + 1 \cdot x_2 + 0 \cdot x_3}{0.318+1+0} = \frac{0.318 \cdot \begin{pmatrix}
+        1\\
+        0
+        \end{pmatrix}+ 0 \cdot \begin{pmatrix}
+        0\\
+        2
+        \end{pmatrix} + 1 \cdot \begin{pmatrix}
+        3\\
+        -1
+        \end{pmatrix}}{1.318} = \begin{pmatrix}
+        2.517\\
+        -0.759
+        \end{pmatrix}\\
+    \end{equation*}
+
+    \begin{equation*}
+        \Sigma_2 = \begin{pmatrix}
+            \Sigma_{11} & \Sigma_{21} \\
+            \Sigma_{12} & \Sigma_{22}
+        \end{pmatrix} = \begin{pmatrix}
+            5.362 & -5.546 \\
+            -5.546 & 7.795
+        \end{pmatrix}
+    \end{equation*}
+
+    \begin{equation*}
+        \fontsize{9.5pt}{10pt}\selectfont
+        \begin{aligned}
+            \Sigma_{11} &= \frac{0.318 \cdot \left((x_{11}-\mu_{21}) \cdot (x_{11} - \mu_{21})\right)+ 1 \cdot \left((x_{21}-\mu_{21}) \cdot (x_{21} - \mu_{21})\right)+ 0 \cdot \left((x_{31}-\mu_{21}) \cdot (x_{31} - \mu_{21})\right)}{1.318}\\
+            &=\frac{0.318 \cdot \left((1-2.517) \cdot (1-2.517)\right) + 1 \cdot \left((0-2.517) \cdot (0 - 2.517)\right)}{1.318} = \frac{0.732+6.335}{1.318} = 5.362\\
+            \\
+            \Sigma_{21} &= \frac{0.318 \cdot \left((x_{12}-\mu_{22}) \cdot (x_{11} - \mu_{21})\right)+ 1 \cdot \left((x_{22}-\mu_{22}) \cdot (x_{21} - \mu_{21})\right)+ 0 \cdot \left((x_{32}-\mu_{22}) \cdot (x_{31} - \mu_{21})\right)}{1.318}\\
+            &=\frac{0.318 \cdot \left((0-(-0.759)) \cdot (1-2.517)\right) + 1 \cdot \left((2-(-0.759)) \cdot (0 - 2.517)\right)}{1.318} = \frac{-0.366+(-6.944)}{1.318} \\
+            &= -5.546\\
+            \\
+            &\Sigma_{12} = \Sigma_{21} = -5.546\\
+        \end{aligned}
+    \end{equation*}
+
+    \begin{equation*}
+        \fontsize{9.5pt}{10pt}\selectfont
+        \begin{aligned}
+        \Sigma_{22} &= \frac{0.318 \cdot \left((x_{12}-\mu_{22}) \cdot (x_{12} - \mu_{22})\right)+ 1 \cdot \left((x_{22}-\mu_{22}) \cdot (x_{22} - \mu_{22})\right)+ 0 \cdot \left((x_{32}-\mu_{22}) \cdot (x_{32} - \mu_{22})\right)}{1.318}\\
+        &= \frac{0.318 \cdot \left((0-(-0.759)) \cdot (0-(-0.759))\right) + 1 \cdot \left((2-(-0.759)) \cdot (2 - (-0.759))\right)}{1.318} \\
+        &= \frac{0.183+7.612}{1.318} = 7.795\\
+        \end{aligned}
+    \end{equation*}
+
+    \end{itemize}
+
+    Normalized priors:
+
+    \begin{equation*}
+        \begin{aligned}
+            P(c=1) &= \frac{0.681+0+1}{(0.681+0+1) + (0.318+1+0)} = 0.561\\
+            P(c=2) &= \frac{0.318+1+0}{(0.681+0+1) + (0.318+1+0)} = 0.439\\
+        \end{aligned}
+    \end{equation*}
+
+    \end{enumerate}
+
+    \vspace{10pt}
     \item \textbf{Using the ﬁnal parameters computed in previous question:}
     \begin{enumerate}[label=\alph*)]
         \item \textbf{perform a hard assignment of observations to clusters under a MAP assumption.}
