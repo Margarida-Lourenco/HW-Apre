@@ -939,8 +939,7 @@ each.}
         \fbox{$x_1$}
 
         \vspace{10pt}
-        \begin{itemize}[label=\ding{222}]
-            \item Cluster $c=1$:
+        \ding{222} Cluster $c=1$:
             \begin{equation*}
                 \fontsize{9.8pt}{10pt}\selectfont
                 \begin{aligned}
@@ -980,7 +979,7 @@ each.}
                 \end{aligned}
             \end{equation*}
 
-            \item Cluster $c=2$:
+            \ding{222} Cluster $c=2$:
             \begin{equation*}
                 \fontsize{9.8pt}{10pt}\selectfont
                 \begin{aligned}
@@ -1019,14 +1018,12 @@ each.}
                     &\text{normalized posterior: } P(c=2|x_1) = \frac{0.147}{0.147+0.159} = \mathbf{0.48}
                 \end{aligned}
             \end{equation*}
-        \end{itemize}
         
         \vspace{10pt}
         \fbox{$x_2$}
 
         \vspace{10pt}
-        \begin{itemize}[label=\ding{222}]
-            \item Cluster $c=1$:
+            \ding{222} Cluster $c=1$:
                 
             \begin{equation*}
                 \fontsize{9.8pt}{10pt}\selectfont
@@ -1067,7 +1064,7 @@ each.}
             \end{equation*}
 
             \vspace{10pt}
-            \item Cluster $c=2$:
+            \ding{222} Cluster $c=2$:
             
             \begin{equation*}
                 \fontsize{9.8pt}{10pt}\selectfont
@@ -1106,14 +1103,13 @@ each.}
                     &\text{normalized posterior: } P(c=2|x_2) = \frac{0.225}{0.225 + 0} = \mathbf{1}
                 \end{aligned}
             \end{equation*}
-        \end{itemize}
+        
 
         \newpage
         \fbox{$x_3$}
 
         \vspace{10pt}
-        \begin{itemize}[label=\ding{222}]
-            \item Cluster $c=1$:
+            \ding{222} Cluster $c=1$:
                 
             \begin{equation*}
                 \fontsize{9.8pt}{10pt}\selectfont
@@ -1154,7 +1150,7 @@ each.}
             \end{equation*}
 
             \vspace{10pt}
-            \item Cluster $c=2$:
+            \ding{222} Cluster $c=2$:
             
             \begin{equation*}
                 \fontsize{9.8pt}{10pt}\selectfont
@@ -1193,7 +1189,6 @@ each.}
                     &\text{normalized posterior: } P(c=2|x_3) = \frac{0}{0.536+0} = \mathbf{0}
                 \end{aligned}
             \end{equation*}
-        \end{itemize}
 
 
         \begin{table}[H]
@@ -1333,7 +1328,7 @@ of bank clients, and the target variable y is binary ('has the client subscribed
         \begin{itemize}
             \item Cluster 0: Has relatively high density in \textbf{management} and \textbf{blue-collar}, which suggests that it is representing workers from a more traditional or stable sector.
             
-            \item Cluster 1: Has very low density in \textbf{unemployment}, \textbf{entrepreneur}, \textbf{housemaid}, \textbf{self-employed} and practically zero for \textbf{unknown}. It is highly dense in \textbf{technician}, \textbf{management}, \textbf{blue-color} and \textbf{admin} which let us belive that represents worker from labor sector.
+            \item Cluster 1: Has very low density in \textbf{unemployed}, \textbf{entrepreneur}, \textbf{housemaid}, \textbf{self-employed} and practically zero for \textbf{unknown}. It is highly dense in \textbf{technician}, \textbf{management}, \textbf{blue-collar} and \textbf{admin} which let us belive that represents workers from the labor sector.
             
             \item Cluster 2: Since has density equal to zero for every job except for \textbf{retired}, it represents retired individuals.
         \end{itemize}
@@ -1345,7 +1340,7 @@ of bank clients, and the target variable y is binary ('has the client subscribed
             \item Cluster 0: The highest density value occurs in \textbf{secondary}, always decreasing for the remaining levels 
             (in the order presented above), meaning it represents individuals with mid-level education.
             
-            \item Cluster 1: Also has the highest density in \textbf{secondary}, but the value in \textbf{tertiary} is also pretty high. 
+            \item Cluster 1: Its highest value of density is in \textbf{secondary}, but the value in \textbf{tertiary} is also pretty high. 
             We can notice a large descent for the remaining levels (primary and unknown), these ones having almost the same value 
             between each other. Thus, it represents people with higher-level education.
             
@@ -1353,10 +1348,10 @@ of bank clients, and the target variable y is binary ('has the client subscribed
             refering to individuals with basic education.
         \end{itemize}
         
-        In conclusion, cluster 0 seems to represent people with secondary education who work in blue-color and managment jobs, 
-        cluster 1 contains well-educated individuals working mostly on technician and management jobs and cluster 2 consists 
-        mainly of people with primary and secondary education, but also having the largest amount of individual in unknown education, 
-        who are retired.
+        In conclusion, cluster 0 seems to represent people with secondary education who work in blue-collar and management jobs, 
+        cluster 1 contains well-educated individuals who work mostly on technician and management jobs and cluster 2 consists 
+        mainly of people with primary and secondary education who are retired. It is the cluster with the largest amount of individuals
+        in unknown education, which corroborates the previous statement.
         
     \end{enumerate}
 
