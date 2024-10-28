@@ -933,20 +933,288 @@ each.}
         \item \textbf{perform a hard assignment of observations to clusters under a MAP assumption.}
         
         \vspace{10pt}
-        From the calculations above we have the following results:
+        Performing another E-STEP with the calculations above we obtain:
 
-        \begin{equation*}
-            \begin{aligned}
-                P(c=1|x_1) &= 0.336 \quad P(c=2|x_1) = 0.664\\
-                P(c=1|x_2) &= 0.008 \quad P(c=2|x_2) = 0.992\\
-                P(c=1|x_3) &= 0.932 \quad P(c=2|x_3) = 0.068\\
-            \end{aligned}
-        \end{equation*}
+        \vspace{10pt}
+        \fbox{$x_1$}
+
+        \vspace{10pt}
+        \begin{itemize}[label=\ding{222}]
+            \item Cluster $c=1$:
+            \begin{equation*}
+                \fontsize{9.8pt}{10pt}\selectfont
+                \begin{aligned}
+                    &\text{prior: } P(c=1) = \pi_1 = \mathbf{0.425} \\
+                    \\
+                    &\text{likelihood: } p(x_1|c=1) = \mathcal{N}(x_1| \mu_1, \sigma_1) \\
+                    &= \frac{1}{(2 \cdot \pi)} \cdot \frac{1}{det(\Sigma_1)^{\frac{1}{2}}} \cdot \exp \left( -\frac{1}{2} \cdot (x_1 - \mu_1)^{T} \Sigma_1^{-1} \cdot (x_1 - \mu_1) \right)\\
+                    &= \frac{1}{(2 \cdot \pi)} \cdot \frac{1}{\sqrt{0.011}} \cdot \exp \left( -\frac{1}{2} \cdot \left(\begin{pmatrix}
+                    1\\
+                    0
+                    \end{pmatrix} - \begin{pmatrix}
+                    2.455\\
+                    -0.718
+                    \end{pmatrix}\right)^{T} \cdot \begin{pmatrix}
+                    0.812 & -0.429\\
+                    -0.429 & 0.240
+                    \end{pmatrix}^{-1} \cdot \left(\begin{pmatrix}
+                    1\\
+                    0
+                    \end{pmatrix} - \begin{pmatrix}
+                    2.455\\
+                    -0.718
+                    \end{pmatrix}\right) \right)\\
+                    &= \frac{1}{(2 \cdot \pi)} \cdot \frac{1}{\sqrt{0.011}} \cdot \exp \left( -\frac{1}{2} \cdot \begin{pmatrix}
+                    -1.455 & 0.718\\
+                    \end{pmatrix} \cdot \begin{pmatrix}
+                    22.142 & 39.579\\
+                    39.579 & 74.915
+                    \end{pmatrix} \cdot \begin{pmatrix}
+                    -1.455\\
+                    0.718
+                    \end{pmatrix} \right) = \frac{e^{-1.4}}{2\pi \cdot \sqrt{0.011}} = \mathbf{0.374}\\
+                    \\
+                    &\text{joint probability: } P(c=1, x_1) =  P(c=1)p(x_1|c=1) = \pi_1 \cdot \mathcal{N}(x_1| \mu_1, \sigma_1) = \mathbf{0.159}\\
+                    \\
+                    &\text{normalized posterior: } P(c=1|x_1) = \frac{0.159}{0.159+0.147} = \mathbf{0.52}
+                \end{aligned}
+            \end{equation*}
+
+            \item Cluster $c=2$:
+            \begin{equation*}
+                \fontsize{9.8pt}{10pt}\selectfont
+                \begin{aligned}
+                    &\text{prior: } P(c=2) = \pi_2 = \mathbf{0.575} \\
+                    \\
+                    &\text{likelihood: } p(x_1|c=2) = \mathcal{N}(x_1| \mu_2, \sigma_2) \\
+                    &= \frac{1}{(2 \cdot \pi)} \cdot \frac{1}{det(\Sigma_2)^\frac{1}{2}} \cdot \exp \left( -\frac{1}{2} \cdot (x_1 - \mu_2)^{T} \Sigma_2^{-1} \cdot (x_1 - \mu_2) \right)\\
+                    &= \frac{1}{(2 \cdot \pi)} \cdot \frac{1}{\sqrt{0.079}} \cdot \exp \left( -\frac{1}{2} \cdot \left(\begin{pmatrix}
+                    1\\
+                    0
+                    \end{pmatrix} - \begin{pmatrix}
+                    0.503\\
+                    1.111
+                    \end{pmatrix}\right)^{T} \cdot \begin{pmatrix}
+                    0.487 & -0.678\\
+                    -0.678 & 1.106
+                    \end{pmatrix}^{-1} \cdot \left(\begin{pmatrix}
+                    1\\
+                    0
+                    \end{pmatrix} - \begin{pmatrix}
+                    0.503\\
+                    1.111
+                    \end{pmatrix}\right) \right)\\
+                    &= \frac{1}{(2 \cdot \pi)} \cdot \frac{1}{\sqrt{0.079}} \cdot \exp \left( -\frac{1}{2} \cdot \begin{pmatrix}
+                    0.497 & -1.111\\
+                    \end{pmatrix} \cdot \begin{pmatrix}
+                    14.011 & 8.589\\
+                    8.589 & 6.169
+                    \end{pmatrix} \cdot \begin{pmatrix}
+                    0.497\\
+                    -1.111
+                    \end{pmatrix} \right) = \frac{e^{-0.795}}{2 \pi \cdot \sqrt{0.079}} = \mathbf{0.256}\\
+                    \\
+                    &\text{joint probability: } P(c=2, x_1) =  P(c=2)p(x_1|c=2) = \pi_2 \cdot \mathcal{N}(x_1| \mu_2, \sigma_2) = \mathbf{0.147}\\
+                    \\
+                    &\text{normalized posterior: } P(c=2|x_1) = \frac{0.147}{0.147+0.159} = \mathbf{0.48}
+                \end{aligned}
+            \end{equation*}
+        \end{itemize}
+        
+        \vspace{10pt}
+        \fbox{$x_2$}
+
+        \vspace{10pt}
+        \begin{itemize}[label=\ding{222}]
+            \item Cluster $c=1$:
+                
+            \begin{equation*}
+                \fontsize{9.8pt}{10pt}\selectfont
+                \begin{aligned}
+                    &\text{prior: } P(c=1) = \pi_1 = \mathbf{0.425} \\
+                    &\text{likelihood: } p(x_2|c=1) = \mathcal{N}(x_2| \mu_1, \sigma_1) \\
+                    &= \frac{1}{(2 \cdot \pi)} \cdot \frac{1}{det(\Sigma_1)^\frac{1}{2}} \cdot \exp \left( -\frac{1}{2} \cdot (x_2 - \mu_1)^{T} \Sigma_1^{-1} \cdot (x_2 - \mu_1) \right)\\
+                    &= \frac{1}{(2 \cdot \pi)} \cdot \frac{1}{\sqrt{0.011}} \cdot \exp \left( -\frac{1}{2} \cdot \left(\begin{pmatrix}
+                    0\\
+                    2
+                    \end{pmatrix} - \begin{pmatrix}
+                    2.455\\
+                    -0.718 
+                    \end{pmatrix}\right)^{T} \cdot \begin{pmatrix}
+                    0.812 & -0.429\\
+                    -0.429 & 0.240    
+                    \end{pmatrix}^{-1} \cdot \left(\begin{pmatrix}
+                    0\\
+                    2
+                    \end{pmatrix} - \begin{pmatrix}
+                    2.455\\
+                    -0.718
+                    \end{pmatrix}\right) \right)\\
+                    &= \frac{1}{(2 \cdot \pi)} \cdot \frac{1}{\sqrt{0.011}} \cdot \exp \left( -\frac{1}{2} \cdot \begin{pmatrix}
+                    -2.455 & 2.718\\
+                    \end{pmatrix} \cdot \begin{pmatrix}
+                    22.142 & 39.579\\
+                    39.579 & 74.915
+                    \end{pmatrix} \cdot \begin{pmatrix}
+                    -2.455\\
+                    2.718
+                    \end{pmatrix} \right) = \frac{e^{-79.345}}{2 \pi \cdot \sqrt{0.011}} = \mathbf{0}\\ 
+                    \\    
+                    &\text{joint probability: } P(c=1, x_2) =  P(c=1)p(x_2|c=1) = \pi_1 \cdot \mathcal{N}(x_2| \mu_1, \sigma_1) = \mathbf{0}\\
+                    \\
+                    &\text{normalized posterior: }P(c=1|x_2) = \frac{0}{0+0.} = \mathbf{0}
+                \end{aligned}
+            \end{equation*}
+
+            \vspace{10pt}
+            \item Cluster $c=2$:
+            
+            \begin{equation*}
+                \fontsize{9.8pt}{10pt}\selectfont
+                \begin{aligned}
+                    &\text{prior: } P(c=2) = \pi_2 = \mathbf{0.575} \\
+                    &\text{likelihood: } p(x_2|c=2) = \mathcal{N}(x_2| \mu_2, \sigma_2) \\
+                    &= \frac{1}{(2 \cdot \pi)} \cdot \frac{1}{det(\Sigma_2)^\frac{1}{2}} \cdot \exp \left( -\frac{1}{2} \cdot (x_2 - \mu_2)^{T} \Sigma_2^{-1} \cdot (x_2 - \mu_2) \right)\\
+                    &= \frac{1}{(2 \cdot \pi)} \cdot \frac{1}{\sqrt{0.079}} \cdot \exp \left( -\frac{1}{2} \cdot \left(\begin{pmatrix}
+                    0\\
+                    2
+                    \end{pmatrix} - \begin{pmatrix}
+                    0.503\\
+                    1.111
+                    \end{pmatrix}\right)^{T} \cdot \begin{pmatrix}
+                    0.487 & -0.678\\    
+                    -0.678 & 1.106
+                    \end{pmatrix}^{-1} \cdot \left(\begin{pmatrix}
+                    0\\
+                    2
+                    \end{pmatrix} - \begin{pmatrix}
+                    0.503\\
+                    1.111
+                    \end{pmatrix}\right) \right)\\
+                    &= \frac{1}{(2 \cdot \pi)} \cdot \frac{1}{\sqrt{0.079}} \cdot \exp \left( -\frac{1}{2} \cdot \begin{pmatrix}
+                    -0.503 & 0.889\\
+                    \end{pmatrix} \cdot \begin{pmatrix}
+                    14.011 & 8.589\\
+                    8.589 & 6.169
+                    \end{pmatrix} \cdot \begin{pmatrix}
+                    -0.503\\
+                    0.889
+                    \end{pmatrix} \right) = \frac{e^{-0.369}}{2 \pi \cdot \sqrt{0.079}} = \mathbf{0.392}\\
+                    \\
+                    &\text{joint probability: } P(c=2, x_2) =  P(c=2)p(x_2|c=2) = \pi_2 \cdot \mathcal{N}(x_2| \mu_2, \sigma_2) = \mathbf{0.225}\\
+                    \\
+                    &\text{normalized posterior: } P(c=2|x_2) = \frac{0.225}{0.225 + 0} = \mathbf{1}
+                \end{aligned}
+            \end{equation*}
+        \end{itemize}
+
+        \newpage
+        \fbox{$x_3$}
+
+        \vspace{10pt}
+        \begin{itemize}[label=\ding{222}]
+            \item Cluster $c=1$:
+                
+            \begin{equation*}
+                \fontsize{9.8pt}{10pt}\selectfont
+                \begin{aligned}
+                    &\text{prior: } P(c=1) = \pi_1 = \mathbf{0.425} \\
+                    &\text{likelihood: } p(x_3|c=1) = \mathcal{N}(x_3| \mu_1, \sigma_1) \\
+                    &= \frac{1}{(2 \cdot \pi)} \cdot \frac{1}{det(\Sigma_1)^\frac{1}{2}} \cdot \exp \left( -\frac{1}{2} \cdot (x_3 - \mu_1)^{T} \Sigma_1^{-1} \cdot (x_3 - \mu_1) \right)\\
+                    &= \frac{1}{(2 \cdot \pi)} \cdot \frac{1}{\sqrt{0.011}} \cdot \exp \left( -\frac{1}{2} \cdot \left(\begin{pmatrix}
+                    3\\
+                    -1
+                    \end{pmatrix} - \begin{pmatrix}
+                    2.455\\
+                    -0.718
+                    \end{pmatrix}\right)^{T} \cdot \begin{pmatrix}
+                    0.812 & -0.429\\
+                    -0.429 & 0.240
+                    \end{pmatrix}^{-1} \cdot \left(\begin{pmatrix}
+                    3\\
+                    -1
+                    \end{pmatrix} - \begin{pmatrix}
+                    2.455\\
+                    -0.718
+                    \end{pmatrix}\right) \right)\\
+                    &= \frac{1}{(2 \cdot \pi)} \cdot \frac{1}{\sqrt{0.011}} \cdot \exp \left( -\frac{1}{2} \cdot \begin{pmatrix}
+                    0.545 & -0.282\\
+                    \end{pmatrix} \cdot \begin{pmatrix}
+                    22.142 & 39.579\\
+                    39.579 & 74.915
+                    \end{pmatrix} \cdot \begin{pmatrix}
+                    0.545\\
+                    -0.282
+                    \end{pmatrix} \right) = \frac{e^{-0.184}}{2 \pi \cdot \sqrt{0.011}} = \mathbf{1.262}\\
+                    \\
+                    &\text{joint probability: } P(c=1, x_3) =  P(c=1)p(x_3|c=1) = \pi_1 \cdot \mathcal{N}(x_3| \mu_1, \sigma_1) = \mathbf{0.536}\\
+                    \\
+                    &\text{normalized posterior: } P(c=1|x_3)= \frac{0.536}{0.536+0} = \mathbf{1}
+                \end{aligned}
+            \end{equation*}
+
+            \vspace{10pt}
+            \item Cluster $c=2$:
+            
+            \begin{equation*}
+                \fontsize{9.8pt}{10pt}\selectfont
+                \begin{aligned}
+                    &\text{prior: } P(c=2) = \pi_2 = \mathbf{0.575} \\
+                    &\text{likelihood: } p(x_3|c=2) = \mathcal{N}(x_3| \mu_2, \sigma_2) \\
+                    &= \frac{1}{(2 \cdot \pi)} \cdot \frac{1}{det(\Sigma_2)^\frac{1}{2}} \cdot \exp \left( -\frac{1}{2} \cdot (x_3 - \mu_2)^{T} \Sigma_2^{-1} \cdot (x_3 - \mu_2) \right)\\
+                    &= \frac{1}{(2 \cdot \pi)} \cdot \frac{1}{\sqrt{0.079}} \cdot \exp \left( -\frac{1}{2} \cdot \left(\begin{pmatrix}
+                    3\\
+                    -1
+                    \end{pmatrix} - \begin{pmatrix}
+                    0.503\\
+                    1.111
+                    \end{pmatrix}\right)^{T} \cdot \begin{pmatrix}
+                    2 & 0\\
+                    0 & 2
+                    \end{pmatrix}^{-1} \cdot \left(\begin{pmatrix}
+                    3\\
+                    -1
+                    \end{pmatrix} - \begin{pmatrix}
+                    0.503\\
+                    1.111
+                    \end{pmatrix}\right) \right)\\
+                    &= \frac{1}{(2 \cdot \pi)} \cdot \frac{1}{\sqrt{0.079}} \cdot \exp \left( -\frac{1}{2} \cdot \begin{pmatrix}
+                    2.497 & -2.111\\
+                    \end{pmatrix} \cdot \begin{pmatrix}
+                    14.011 & 8.589\\
+                    8.589 & 6.169
+                    \end{pmatrix} \cdot \begin{pmatrix}
+                    2.497\\
+                    -2.111
+                    \end{pmatrix} \right) = \frac{e^{-12.151}}{2 \pi \cdot \sqrt{0.079}} = \mathbf{0}\\
+                    \\
+                    &\text{joint probability: } P(c=1, x_3) =  P(c=1)p(x_3|c=1) = \pi_1 \cdot \mathcal{N}(x_3| \mu_1, \sigma_1) = \mathbf{0}\\
+                    \\
+                    &\text{normalized posterior: } P(c=2|x_3) = \frac{0}{0.536+0} = \mathbf{0}
+                \end{aligned}
+            \end{equation*}
+        \end{itemize}
+
+
+        \begin{table}[H]
+            \begin{center}
+                \begin{threeparttable}
+                \begin{tabular}{c|c|c}
+                    Observations & $c=1$ & $c=2$ \\
+                    \hline
+                    $x_1$ & $0.52$ & $0.48$\\
+                    $x_2$ & $0$ & $1$\\
+                    $x_3$ & $1$ & $0$\\
+                \end{tabular}
+                \caption{Normalized posteriors}
+                \end{threeparttable}
+            \end{center}
+        \end{table}
 
         Thus, we infer:
 
         \begin{equation*}
-                \text{clusters} = \{c_1=\{x_3\},c_2=\{x_1, x_2\}\}
+                \text{clusters} = \{c_1=\{x_3, x_1\},c_2=\{x_2\}\}
         \end{equation*}
 
         \item \textbf{compute the silhouette of the larger cluster (the one that has more observations
@@ -954,11 +1222,11 @@ each.}
 
         \begin{equation*}
             \begin{aligned}
-                s(x_1) = \frac{b(x_1)}{a(x_1)} - 1 &= \frac{\|x_1-x_3\|_2}{\|x_1-x_2\|_2} - 1 = \frac{\sqrt{(1-3)^2+(0-(-1))^2}}{\sqrt{(1-0)^2+(0-2)^2}} - 1 = \frac{\sqrt{5}}{\sqrt{5}} - 1 = 0\\
+                s(x_1) = \frac{b(x_1)}{a(x_1)} - 1 &= \frac{\|x_1-x_2\|_2}{\|x_1-x_3\|_2} - 1 = \frac{\sqrt{(1-0)^2+(0-2)^2}}{\sqrt{(1-3)^2+(0-(-1))^2}} - 1 = \frac{\sqrt{5}}{\sqrt{5}} - 1 = 0\\
                 \\
-                s(x_2) = 1 - \frac{a(x_2)}{b(x_2)} &= 1 - \frac{\|x_2-x_1\|_2}{\|x_2-x_3\|_2} = 1 - \frac{\sqrt{(0-1)^2+(2-0)^2}}{\sqrt{(0-3)^2+(2-(-1))^2}} = 1 - \frac{\sqrt{5}}{\sqrt{18}} = 0.473\\
+                s(x_3) = 1 - \frac{a(x_3)}{b(x_3)} &= 1 - \frac{\|x_3-x_1\|_2}{\|x_3-x_2\|_2} = 1 - \frac{\sqrt{(3-1)^2+(-1-0)^2}}{\sqrt{(3-0)^2+(-1-2)^2}} = 1 - \frac{\sqrt{5}}{\sqrt{18}} = 0.473\\
                 \\
-                s(c_2) &= \frac{s(x_1) + s(x_2)}{2} = \frac{0+(0.473)}{2} = 0.237
+                s(c_1) &= \frac{s(x_1) + s(x_3)}{2} = \frac{0+(0.473)}{2} = 0.237
             \end{aligned}
         \end{equation*}
 
@@ -970,44 +1238,127 @@ each.}
 
 \vspace{20pt}
 \textbf{In the next exercise you will use the \texttt{accounts.csv} dataset. This dataset contains account details
-of bank clients, and the target variable y is binary ('has the client subscribed a term deposit?').}
+of bank clients, and the target variable y is binary ('has the client subscribed a term deposit?'). Select the first 8 features and remove duplicates and null values.}
 
-\begin{enumerate}
-    \item \textbf{Select the first 8 features and remove duplicates and null values. Normalize the data
-    using \texttt{MinMaxScaler}. Using \texttt{sklearn}, apply \texttt{k-means clustering} (without targets) on the
-    normalized data with \( k = \{2,3,4,5,6,7,8\} \). Apply k-means randomly initialized, using \texttt{max\_iter = 500}
-    and \texttt{random\_state = 42}. Plot the different sum of squared errors (SSE) using the
-    \texttt{\_inertia} attribute of \texttt{k-means} according to the number of clusters.}
-    
-    \textbf{Hint:} You can use \texttt{get\_dummies()} to change the feature type from categorical to numerical
+\vspace{10pt}
+\textbf{Hint:} You can use \texttt{get\_dummies()} to change the feature type from categorical to numerical
     (e.g. \texttt{pd.get\_dummies(data, drop\_first=True)})
 
-    \item \textbf{According to the previous plot, how many underlying customer segments (clusters)
-    should there be ? Explain based on the trade off between the clusters and inertia.}
-
-    \item \textbf{Would k-modes be a better clustering approach ? Explain why based on the dataset
-    features.}
-
-    \item \textbf{Apply PCA to the data :}
+\begin{enumerate}
+    \item \textbf{Normalize the data using \texttt{MinMaxScaler}:}
     
     \begin{enumerate}[label=\alph*)]
-        \item \textbf{Use \texttt{StandardScaler} to scale the data before you apply \texttt{ﬁt\_transform}. How much
-        variability is explained by the top 2 components ?}
-        \item \textbf{Provide a scatterplot according to the ﬁrst 2 principal components and color the
-        points according to $k=3$ clusters. Can we clearly separate the clusters ? Justify.}
-    \end{enumerate}
+        \item \textbf{Using \texttt{sklearn}, apply \texttt{k-means clustering} (without targets) on the
+        normalized data with \( k = \{2,3,4,5,6,7,8\} \). Apply k-means randomly initialized, using \texttt{max\_iter = 500}
+        and \texttt{random\_state = 42}. Plot the different sum of squared errors (SSE) using the
+        \texttt{\_inertia} attribute of \texttt{k-means} according to the number of clusters.}
     
-    \item \textbf{Plot the cluster conditional features of the frequencies of `job" and `education"
-    according to k-means, with \texttt{multiple='dodge'}, \texttt{stat='density'}, \texttt{shrink=0.8},
-    \texttt{common\_norm=False}. Analyze the frequency plots using \texttt{sns.displot}, (see Data Exploration
-    notebook). Describe the main diﬀerences between the clusters in no more than half page.}
+        \vspace{20pt}
+        \lstinputlisting[language=Python]{./Part II/1_a.py}
 
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=12cm]{./Part II/1_a.png}
+            \caption{Sum of squared errors (SSE) according to the number of clusters}
+        \end{figure}
 
+        \item \textbf{According to the previous plot, how many underlying customer segments (clusters)
+        should there be ? Explain based on the trade off between the clusters and inertia.}
 
+        \vspace{10pt}
+        As we can see in the previous plot, Sum of Squared Errors (SSE) decreases as the number of clusters (k) increases which means more clusters lead to better partitioning and lower variance (inertia).
+        The highest decrease in SEE is in between k = 2 and k = 4. After that, it becomes more gradual, so there is a lower benefit for adding more clusters. Therefore, we suppose k = 4 is a reasonable number, as it balances the trade-off between cluster complexity and inertia.
+        
+        \vspace{10pt}
+        \item \textbf{Would k-modes be a better clustering approach ? Explain why based on the dataset
+        features.}
 
+        \vspace{10pt}
+        The dataset contains a mix of categorical features (job, marital, education, default, housing, loan, contact, month, poutcome, and deposit) and numerical features (age, balance, day, duration, campaign, pdays, previous). K-means clustering works by minimizing euclidean distance, which is effective for numerical data but unsuitable for categorical data and since this dataset has more categorical features, k-modes would be a better approach because instead of minimizing variance, it minimizes dissimilarity based on matching categories.
+        
+    \end{enumerate}
 
+    \item \textbf{Normalize the data using \texttt{StandardScaler}:}
+    
+    \begin{enumerate}[label=\alph*)]
+        \item \textbf{Apply PCA to the data. How much variability is explained by the top 2 components?}
+        
+        \lstinputlisting[language=Python]{./Part II/2_a.py}
 
+        \vspace{10pt}
+        Variability explained by the top 2 components: 22.76\%
+        \vspace{10pt}
+        
+        \item \textbf{Apply \texttt{k-means} clustering with $k=3$ and \texttt{random\_state=42} (all other arguments as default) and use the original 8 features. Next, provide a scatterplot according to the ﬁrst 2 principal components. Can we clearly separate the clusters? Justify.}
+    
+        \vspace{10pt}
+        \lstinputlisting[language=Python]{./Part II/2_b.py}
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=12cm]{./Part II/2_b.png}
+            \caption{PCA Scatterplot}
+        \end{figure}
 
+        \vspace{10pt}
+        Some separation is visible for k-mean clustering with k = 3, but we can't say that they are clearly distinct since there is an overlap, which indicates that these clusters don't have distinct boundaries.
+        \vspace{10pt}
+        
+        \item \textbf{Plot the cluster conditional features of the frequencies of `job" and `education"
+        according to k-means, with \texttt{multiple='dodge'}, \texttt{stat='density'},
+        \texttt{shrink =0.8}, \texttt{common\_norm=False}. Analyze the frequency plots using \texttt{sns.displot}, (see Data Exploration
+        notebook). Describe the main diﬀerences between the clusters in no more than half page.}
+
+        \vspace{10pt}
+        \lstinputlisting[language=Python]{./Part II/2_c.py}
+
+        \begin{figure}[h]
+            \centering
+            \captionsetup{font=footnotesize} 
+            \begin{minipage}{0.43\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{./Part II/2_c_1.png}
+                \caption{Frequency Distribution of Job}
+            \end{minipage}
+            \begin{minipage}{0.43\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{./Part II/2_c_2.png}
+                \caption{Frequency Distribution of Education}
+            \end{minipage}
+            \caption{Cluster conditional features of the frequencies of `job' and `education'}
+        \end{figure}
+
+        \newpage
+        \underline{For job frequency distribution:}
+
+        \begin{itemize}
+            \item Cluster 0: Has relatively high density in \textbf{management} and \textbf{blue-collar}, which suggests that it is representing workers from a more traditional or stable sector.
+            
+            \item Cluster 1: Has very low density in \textbf{unemployment}, \textbf{entrepreneur}, \textbf{housemaid}, \textbf{self-employed} and practically zero for \textbf{unknown}. It is highly dense in \textbf{technician}, \textbf{management}, \textbf{blue-color} and \textbf{admin} which let us belive that represents worker from labor sector.
+            
+            \item Cluster 2: Since has density equal to zero for every job except for \textbf{retired}, it represents retired individuals.
+        \end{itemize}
+
+        \vspace{10pt}
+        \underline{For education frequency distribution:}
+        
+        \begin{itemize}
+            \item Cluster 0: The highest density value occurs in \textbf{secondary}, always decreasing for the remaining levels 
+            (in the order presented above), meaning it represents individuals with mid-level education.
+            
+            \item Cluster 1: Also has the highest density in \textbf{secondary}, but the value in \textbf{tertiary} is also pretty high. 
+            We can notice a large descent for the remaining levels (primary and unknown), these ones having almost the same value 
+            between each other. Thus, it represents people with higher-level education.
+            
+            \item Cluster 2: The highest values of density are found in \textbf{secondary} and \textbf{primary}, which suggests that it is 
+            refering to individuals with basic education.
+        \end{itemize}
+        
+        In conclusion, cluster 0 seems to represent people with secondary education who work in blue-color and managment jobs, 
+        cluster 1 contains well-educated individuals working mostly on technician and management jobs and cluster 2 consists 
+        mainly of people with primary and secondary education, but also having the largest amount of individual in unknown education, 
+        who are retired.
+        
+    \end{enumerate}
 
 \end{enumerate}
 \end{document}
